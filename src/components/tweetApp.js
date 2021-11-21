@@ -1,7 +1,9 @@
 import React from "react";
+import TweetList from "./tweetList";
+
 const TweetAppComponent = () => {
   return (
-      <h1>This is a tweet app component</h1>
+      <TweetList></TweetList>
   );
 };
 
