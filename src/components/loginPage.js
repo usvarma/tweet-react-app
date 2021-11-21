@@ -3,21 +3,31 @@ import React from "react";
 import { Form, Button } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import TweetAppComponent from "./tweetApp";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginSignUp = () => {
+  const navigate = useNavigate();
   let userLoggedIn = false;
-  let isAuthenticated  = () => userLoggedIn = true;
+  let isAuthenticated = function(userName,password){
+                            if(userName === 'test@test.com' && password === 'Test@1test')
+                            userLoggedIn = true;
+                          }
+
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data) => {
-    isAuthenticated()
+  const onSubmitLogin = (data) => {
+    let {userName,password} = data;
+    isAuthenticated(userName,password);
+    
+    if(userLoggedIn)
+      navigate('/user/tweets');
+    else
+      navigate('/');
   }
 
   return (
             
                   <><h1>Log In</h1>
-                  <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form onSubmit={handleSubmit(onSubmitLogin)}>
                     <Form.Field>
                       <label id="userNameLbl">User Name</label>
             
