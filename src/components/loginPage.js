@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Form, Button } from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -15,14 +15,14 @@ const LoginSignUp = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmitLogin = (data) => {
-    let {userName,password} = data;
-    isAuthenticated(userName,password);
-    
-    if(userLoggedIn)
-      navigate('/user/tweets');
-    else
-      navigate('/');
-  }
+                                      let {userName,password} = data;
+                                      isAuthenticated(userName,password);
+                                      
+                                      if(userLoggedIn)
+                                        navigate('/user/tweets');
+                                      else
+                                        navigate('/');
+                                  }
 
   return (
             
