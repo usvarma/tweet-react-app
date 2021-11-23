@@ -1,0 +1,65 @@
+[
+  {
+    "id": "1",
+    "created_on": "Sat Nov 19 11:45:59 +0000 2021",
+    "content": "Oh great! I was wondering how every corporation I've ever given my email to was handling COVID-19",
+    "user": "Eminem",
+    "comments_count": 3,
+    "retweets_count": 1,
+    "favorites_count": 27
+  },
+  {
+    "id": "2",
+    "created_on": "Sat Nov 19 11:50:59 +0000 2021",
+    "content": "Cake is a lie.",
+    "user": "hl2",
+    "comments_count": 12,
+    "retweets_count": 2,
+    "favorites_count": 43
+  },
+  {
+    "id": "3",
+    "created_on": "Sun Nov 20 10:05:19 +0000 2021",
+    "content": "I think I really believe my 🐈‍⬛ cat ate my source code.",
+    "user": "realprogrammer",
+    "comments_count": 12,
+    "retweets_count": 23,
+    "favorites_count": 5
+  },
+  {
+    "id": "4",
+    "created_on": "Sun Nov 20 10:05:19 +0000 2021",
+    "content": "@chrisPine",
+    "user": "Pinecone",
+    "comments_count": 4,
+    "retweets_count": 19,
+    "favorites_count": 1
+  },
+  {
+    "id": "5",
+    "created_on": "Sun Nov 20 10:07:19 +0000 2021",
+    "content": "Change your windows passwords",
+    "user": "AB",
+    "comments_count": 2,
+    "retweets_count": 4,
+    "favorites_count": 1
+  },
+  {
+    "id": "6",
+    "created_on": "Sun Nov 20 10:07:19 +0000 1999",
+    "content": "There are no coincidences",
+    "user": "TheRealOracle",
+    "comments_count": 4,
+    "retweets_count": 3,
+    "favorites_count": 11
+  },
+  {
+    "id": "7",
+    "created_on": "Sun Nov 20 13:11:19 +0000 1984",
+    "content": "Spice must flow",
+    "user": "PaulAtriedes",
+    "comments_count": 69,
+    "retweets_count": 12,
+    "favorites_count": 42
+  }
+]
