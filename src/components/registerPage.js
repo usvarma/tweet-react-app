@@ -1,9 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const RegisterComponent = () => {
+    
+    const navigate = useNavigate();
+    const onSubmitRegister = () => {
+    
+        navigate('/user/tweets');
+        
+    }
+    
     return (
         <div className="container">
-            <form>
+            <form onSubmit={onSubmitRegister}>
                 <div className="form-group">
                     <label htmlFor="emailAddress" className="mt-4">Email address</label>
                     <input type="email" className="form-control mt-2" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email"></input>
