@@ -1,23 +1,22 @@
 import React from "react";
-import '../styles/register.css';
 
 const RegisterComponent = () => {
     return (
-        <div class="container">
+        <div className="container">
             <form>
-                <div class="form-group">
-                    <label for="emailAddress">Email address</label>
-                    <input type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email"></input>
+                <div className="form-group">
+                    <label htmlFor="emailAddress" className="mt-4">Email address</label>
+                    <input type="email" className="form-control mt-2" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email"></input>
                 </div>
-                <div class="form-group">
-                    <label for="Password" >Password</label>
-                    <input type="password" class="form-control" id="registerPassword" placeholder="Password"></input>
+                <div className="form-group">
+                    <label htmlFor="Password" className="mt-4">Password</label>
+                    <input type="password" className="form-control mt-2" id="registerPassword" placeholder="Password"></input>
                 </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Confirm password"></input>
+                <div className="form-group">
+                    <label htmlFor="confirmPassword" className="mt-4">Confirm Password</label>
+                    <input type="password" className="form-control mt-2" id="registerConfirmPassword" placeholder="Confirm password"></input>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" className="btn btn-primary mt-4">Sign Up</button>
             </form>
       </div>       
               

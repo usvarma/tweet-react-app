@@ -4,6 +4,7 @@ import { Form, Button } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import '../styles/loginpage.css';
 
 const LoginSignUp = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const LoginSignUp = () => {
                   </Form>
                   <div>
                   <span>Not registered?</span>
-                  <Link to="/user/register">
+                  <Link to="/register">
                   <Button type="submit" id="signUpBtn">Sign Up</Button>
                   </Link>
               
