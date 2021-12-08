@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import ComposeForm from './composeform';
 import Timeline from './timeline';
+import HeaderNav from './headernav';
 import { FaTwitter } from 'react-icons/fa';
 import '../styles/tweetapp.css';
 import initialTweets from '../data/tweets.json';
@@ -27,6 +28,7 @@ const TweetAppComponent = () => {
                                         }
   return (
             <div className="app">
+              <HeaderNav/>
               <FaTwitter className="app-logo" size="2em" />
               <ComposeForm onSubmit={handlePostTweet} />      
               <div className="separator"></div>
