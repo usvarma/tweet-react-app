@@ -8,7 +8,7 @@ import { FaTwitter } from 'react-icons/fa';
 import '../styles/tweetapp.css';
 import initialTweets from '../data/tweets.json';
 
-const CURRENT_USER = 'twitterbot'
+const CURRENT_USER = 'twitterbot';
 
 const TweetAppComponent = () => {
   
