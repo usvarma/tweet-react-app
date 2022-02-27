@@ -3,6 +3,10 @@ import { React, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/loginpage.css';
 
+const isEmpty = function (inputValue) {
+  return inputValue === "" || inputValue === null || inputValue.length === 0;
+}
+
 const LoginSignUp = () => {
 
   const navigate = useNavigate();
@@ -14,14 +18,25 @@ const LoginSignUp = () => {
 
   let emailAddress = useRef(null);
   let password = useRef(null);
-  const onSubmitLogin = (data) => {
-    let { userName, password } = data;
-    isAuthenticated(userName, password);
+
+  const onSubmitLogin = () => {
+    let emailValue = emailAddress?.current?.value;
+    let passwordValue = password?.current?.value;
+    const areFieldsEmpty = isEmpty(emailValue) || isEmpty(passwordValue);
+
+    if (!areFieldsEmpty) {
+      isAuthenticated(emailValue, passwordValue);
+    }
+
 
     if (userLoggedIn)
       navigate('/user/tweets');
     else
       navigate('/');
+  }
+
+  const goToRegisterPage = () =>{
+    navigate('/register');
   }
 
   return (
@@ -40,7 +55,7 @@ const LoginSignUp = () => {
         <button type="submit" className="btn btn-primary mt-4">Login</button>
       </form>
       <div className="container mt-4">
-        <button type="submit" className="btn btn-primary" id="SignUpBtn">Sign Up</button>
+        <button type="submit" className="btn btn-primary" id="SignUpBtn" onClick={goToRegisterPage}>Sign Up</button>
       </div>
     </div>
 
