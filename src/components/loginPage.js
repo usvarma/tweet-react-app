@@ -1,14 +1,14 @@
 
-import { React, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { React, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../styles/loginpage.css';
 
 const isEmpty = function (inputValue) {
-  return inputValue === "" || inputValue === null || inputValue.length === 0;
+  return inputValue === null || inputValue === undefined || inputValue.trim().length === 0;
 }
 
 const LoginSignUp = () => {
-
+  const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
   const navigate = useNavigate();
   let userLoggedIn = false;
   let isAuthenticated = function (userName, password) {
@@ -18,16 +18,17 @@ const LoginSignUp = () => {
 
   let emailAddress = useRef(null);
   let password = useRef(null);
+  
+  let areFieldsEmpty = function(){ 
+    setAreInputFieldsEmpty(isEmpty(emailAddress?.current?.value) || isEmpty(password?.current?.value));
+    return;
+  }
 
   const onSubmitLogin = () => {
-    let emailValue = emailAddress?.current?.value;
-    let passwordValue = password?.current?.value;
-    const areFieldsEmpty = isEmpty(emailValue) || isEmpty(passwordValue);
-
-    if (!areFieldsEmpty) {
-      isAuthenticated(emailValue, passwordValue);
+    
+    if (!areInputFieldsEmpty) {
+      isAuthenticated(emailAddress?.current?.value, password?.current?.value);
     }
-
 
     if (userLoggedIn)
       navigate('/user/tweets');
@@ -46,16 +47,16 @@ const LoginSignUp = () => {
       <form onSubmit={onSubmitLogin}>
         <div className="form-group">
           <label htmlFor="loginEmail" className="mt-4">Email address</label>
-          <input required type="email" className="form-control mt-2" ref={emailAddress} id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email"></input>
+          <input required type="email" className="form-control mt-2" ref={emailAddress} id="loginEmail" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter email"></input>
         </div>
         <div className="form-group">
           <label htmlFor="loginPassword" className="mt-4">Password</label>
-          <input required type="password" className="form-control mt-2" ref={password} id="loginPassword" placeholder="Password"></input>
+          <input required type="password" className="form-control mt-2" ref={password} id="loginPassword" onChange={areFieldsEmpty} placeholder="Enter password"></input>
         </div>
-        <button type="submit" className="btn btn-primary mt-4">Login</button>
+        <button type="submit" className={`btn btn-primary mt-4 ${areInputFieldsEmpty ? "disabled": ""}`} id="loginBtn">Login</button>
       </form>
       <div className="container mt-4">
-        <button type="submit" className="btn btn-primary" id="SignUpBtn" onClick={goToRegisterPage}>Sign Up</button>
+        <button type="submit" className="btn btn-primary" id="signUpBtn" onClick={goToRegisterPage}>Sign Up</button>
       </div>
     </div>
 
