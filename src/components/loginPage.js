@@ -1,78 +1,52 @@
 
-import React from "react";
-import { Form, Button } from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css';
-import { useForm } from "react-hook-form";
+import { React, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/loginpage.css';
 
 const LoginSignUp = () => {
+
   const navigate = useNavigate();
   let userLoggedIn = false;
-  let isAuthenticated = function(userName,password){
-                            if(userName === 'test@test.com' && password === 'Test@1test')
-                            userLoggedIn = true;
-                          }
+  let isAuthenticated = function (userName, password) {
+    if (userName === 'test@test.com' && password === 'Password1')
+      userLoggedIn = true;
+  }
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  let emailAddress = useRef(null);
+  let password = useRef(null);
   const onSubmitLogin = (data) => {
-                                      let {userName,password} = data;
-                                      isAuthenticated(userName,password);
-                                      
-                                      if(userLoggedIn)
-                                        navigate('/user/tweets');
-                                      else
-                                        navigate('/');
-                                  }
+    let { userName, password } = data;
+    isAuthenticated(userName, password);
+
+    if (userLoggedIn)
+      navigate('/user/tweets');
+    else
+      navigate('/');
+  }
 
   return (
-            
-                  <><h1>Log In</h1>
-                  <Form onSubmit={handleSubmit(onSubmitLogin)}>
-                    <Form.Field>
-                      <label id="userNameLbl">User Name</label>
-            
-                      <input type="text" id="userName" {...register("userName", { 
-                        required: true, 
-                        maxLength: 25, 
-                        pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
-                        })} 
-                        placeholder="Enter your username to login">
 
-                      </input>
-            
-                    </Form.Field>
-                    {errors.userName && <p>Please enter an username</p>}
-            
-                    <Form.Field>
-            
-                      <label id="passwordLbl">Password</label>
-                      <input type="password" id="password" {...register("password", { 
-                            required: true, 
-                            pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/
-                            })} 
-                            placeholder="Enter your password">
+    <div className="container">
+      <h2>Login to Tweet App</h2>
+      <form onSubmit={onSubmitLogin}>
+        <div className="form-group">
+          <label htmlFor="loginEmail" className="mt-4">Email address</label>
+          <input required type="email" className="form-control mt-2" ref={emailAddress} id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email"></input>
+        </div>
+        <div className="form-group">
+          <label htmlFor="loginPassword" className="mt-4">Password</label>
+          <input required type="password" className="form-control mt-2" ref={password} id="loginPassword" placeholder="Password"></input>
+        </div>
+        <button type="submit" className="btn btn-primary mt-4">Login</button>
+      </form>
+      <div className="container mt-4">
+        <button type="submit" className="btn btn-primary" id="SignUpBtn">Sign Up</button>
+      </div>
+    </div>
 
-                      </input>
-            
-                    </Form.Field>
-                    {errors.password && <p>Password should contain atleast a capital letter, a small letter and must be 6 chars, max 15 chars</p>}
-                    <div>
-                      <Button type="submit" id="submitBtn">Log In</Button>
-                    </div>
-            
-                  </Form>
-                  <div>
-                  <span>Not registered?</span>
-                  <Link to="/register">
-                  <Button type="submit" id="signUpBtn">Sign Up</Button>
-                  </Link>
-              
-                  </div></>
-              
-          );
+  );
 
-      
-    };
-    
-    export default LoginSignUp;
+
+};
+
+export default LoginSignUp;

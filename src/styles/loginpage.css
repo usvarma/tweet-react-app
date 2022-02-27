@@ -1,0 +1,23 @@
+.form-control{
+    margin-top: 4;
+    display:block;
+    align-self: left;
+    margin:auto;
+    width:300px;
+}
+label{
+    margin-top: 4;
+    display:block;
+    align-self: left;
+    margin:auto;
+    width:300px
+}
+.btn-primary{
+    margin-top: 4;
+    display:block;
+    align-self: center;
+    margin:auto;
+    width:300px
+}
+
+

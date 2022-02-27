@@ -49,7 +49,7 @@ const RegisterComponent = () => {
                 </div>
                 <button type="submit" className="btn btn-primary mt-4">Sign Up</button>
             </form>
-      </div>       
+        </div>       
               
         );
       };
