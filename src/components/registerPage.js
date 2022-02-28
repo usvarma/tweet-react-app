@@ -35,7 +35,7 @@ const RegisterComponent = () => {
 
     const onSubmitRegister = () => {
         
-        if( areFieldsEmpty || !doPasswordsMatch ){
+        if( areInputFieldsEmpty || !doPasswordsMatch ){
             navigate('/login');
         }
         else{
