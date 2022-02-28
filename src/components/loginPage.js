@@ -8,6 +8,7 @@ const isEmpty = function (inputValue) {
 }
 
 const LoginSignUp = () => {
+  
   const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
   const navigate = useNavigate();
   let userLoggedIn = false;
