@@ -48,7 +48,7 @@ const LoginSignUp = () => {
       <form onSubmit={onSubmitLogin}>
         <div className="form-group">
           <label htmlFor="loginEmail" className="mt-4">Email address</label>
-          <input required type="email" className="form-control mt-2" ref={emailAddress} id="loginEmail" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter email"></input>
+          <input required type="text" className="form-control mt-2" ref={emailAddress} id="loginEmail" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter email"></input>
         </div>
         <div className="form-group">
           <label htmlFor="loginPassword" className="mt-4">Password</label>
