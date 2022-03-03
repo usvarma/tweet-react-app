@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef} from 'react';
+import { useState, useRef, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/UserService";
 
@@ -14,10 +14,10 @@ const RegisterComponent = () => {
     let username = useRef(null);
     let password = useRef(null);
     let confirmPassword = useRef(null);
-    
+    const [user, setUser] = useState(null);
     const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
     const [doPasswordsMatch, setDoPasswordsMatch] = useState(false);
-        
+    const[isFormSubmitted, setIsFormSubmitted] = useState(false);    
     const navigate = useNavigate();
 
     let areFieldsEmpty = function () {
@@ -34,26 +34,40 @@ const RegisterComponent = () => {
         areFieldsEmpty();
         doPasswordFieldsMatch();
     }
-   
-
-    const onSubmitRegister = () => {
-
+       
+    useEffect(()=>{
+        if(isFormSubmitted){
+            let userData = { 'name': username?.current?.value, 'emailAddress': emailAddress?.current?.value, 'username': username?.current?.value, 'Password': password?.current?.value };
+            
+            const userRegister = async (userData) => {
+                try {
+                    let registerResponse = await registerUser(userData);
+                    //console.log('registerUser response is'+ JSON.stringify(registerResponse));
+                    setUser(registerResponse);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            userRegister(userData);
+        }
+    },[isFormSubmitted])
+    
+    function onSubmitRegister(event){
+        event.preventDefault();
         if (areInputFieldsEmpty || !doPasswordsMatch) {
 
             navigate('/register');
         }
         else {
-
-            let userData = { 'name': username?.current?.value, 'emailAddress': emailAddress?.current?.value, 'username': username?.current?.value, 'Password': password?.current?.value };
+            console.log(`Within onSubmitRegister`);
+            setIsFormSubmitted(true);
         }
-    };
-
-    
+    }
 
 
     return (
         <div className="container">
-            <form onSubmit={onSubmitRegister}>
+            <form onSubmit={event => {onSubmitRegister(event)}}>
                 <div className="form-group">
                     <label htmlFor="registerEmail" className="mt-4">Email address</label>
                     <input required type="email" className="form-control mt-2" ref={emailAddress} id="registerEmail" onChange={validateInputs} aria-describedby="emailHelp" placeholder="Enter email"></input>
