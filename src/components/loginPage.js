@@ -25,8 +25,9 @@ const LoginSignUp = () => {
     return;
   }
 
-  const onSubmitLogin = () => {
-    
+  const onSubmitLogin = (event) => {
+    //Browser re-renders the component by default post form-submission. This is to stop re-rendering.
+    event.preventDefault();
     if (!areInputFieldsEmpty) {
       setIsFormSubmitted(true);
     }
@@ -58,7 +59,7 @@ const LoginSignUp = () => {
 
     <div className="container">
       <h2>Login to Tweet App</h2>
-      <form onSubmit={onSubmitLogin}>
+      <form onSubmit={event => {onSubmitLogin(event)}}>
         <div className="form-group">
           <label htmlFor="loginEmail" className="mt-4">Username</label>
           <input required type="text" className="form-control mt-2" ref={username} id="loginUsername" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter username"></input>
