@@ -1,5 +1,7 @@
+import { GetToken, SetToken, GetUserInfo } from "./TokenService";
+
 const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
-const token = ""; //Add call to tokenservice to get token
+const token = await GetToken(); //Add call to tokenservice to get token
 const requestHeader = {'Content-Type': 'application/json', 'Authorization':token};
 
 
