@@ -42,7 +42,6 @@ const RegisterComponent = () => {
             const userRegister = async (userData) => {
                 try {
                     let registerResponse = await registerUser(userData);
-                    //console.log('registerUser response is'+ JSON.stringify(registerResponse));
                     setUser(registerResponse);
                 } catch (error) {
                     console.log(error);
@@ -53,13 +52,13 @@ const RegisterComponent = () => {
     },[isFormSubmitted])
     
     function onSubmitRegister(event){
+        //Browser re-renders the component by default post form-submission. This is to stop re-rendering.
         event.preventDefault();
         if (areInputFieldsEmpty || !doPasswordsMatch) {
 
             navigate('/register');
         }
         else {
-            console.log(`Within onSubmitRegister`);
             setIsFormSubmitted(true);
         }
     }

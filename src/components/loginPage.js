@@ -1,6 +1,8 @@
 
-import { React, useRef, useState } from "react";
+import { React, useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { SetToken } from "../services/TokenService";
+import { loginUser } from "../services/UserService";
 import '../styles/loginpage.css';
 
 const isEmpty = function (inputValue) {
@@ -10,14 +12,12 @@ const isEmpty = function (inputValue) {
 const LoginSignUp = () => {
   
   const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const[isFormSubmitted, setIsFormSubmitted] = useState(false);
   const navigate = useNavigate();
-  let userLoggedIn = false;
-  let isAuthenticated = function (userName, password) {
-    if (userName === 'test@test.com' && password === 'Password1')
-      userLoggedIn = true;
-  }
+  
 
-  let emailAddress = useRef(null);
+  let username = useRef(null);
   let password = useRef(null);
   
   let areFieldsEmpty = function(){ 
@@ -28,18 +28,31 @@ const LoginSignUp = () => {
   const onSubmitLogin = () => {
     
     if (!areInputFieldsEmpty) {
-      isAuthenticated(emailAddress?.current?.value, password?.current?.value);
+      setIsFormSubmitted(true);
     }
-
-    if (userLoggedIn)
-      navigate('/user/tweets');
-    else
-      navigate('/');
+    
   }
 
   const goToRegisterPage = () =>{
     navigate('/register');
   }
+
+  useEffect(()=>{
+    if(isFormSubmitted){
+        let credentials = {'Username': username?.current?.value, 'Password': password?.current?.value };
+        
+        const userLogin = async (credentials) => {
+            try {
+                let registerResponse = await loginUser(credentials);
+                SetToken(registerResponse);
+                setIsLoggedIn(true);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        userLogin(credentials);
+    }
+},[isFormSubmitted])
 
   return (
 
@@ -47,8 +60,8 @@ const LoginSignUp = () => {
       <h2>Login to Tweet App</h2>
       <form onSubmit={onSubmitLogin}>
         <div className="form-group">
-          <label htmlFor="loginEmail" className="mt-4">Email address</label>
-          <input required type="text" className="form-control mt-2" ref={emailAddress} id="loginEmail" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter email"></input>
+          <label htmlFor="loginEmail" className="mt-4">Username</label>
+          <input required type="text" className="form-control mt-2" ref={username} id="loginUsername" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter username"></input>
         </div>
         <div className="form-group">
           <label htmlFor="loginPassword" className="mt-4">Password</label>

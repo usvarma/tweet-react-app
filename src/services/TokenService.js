@@ -53,7 +53,7 @@ export const GetToken = async () => {
 
 };
 
-export var SetToken = (token) => {
+export const SetToken = (token) => {
     if (!token || !token.trim()) {
         localStorage.removeItem("token");
     } else {

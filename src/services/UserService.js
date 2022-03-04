@@ -28,7 +28,7 @@ export async function registerUser(userData) {
     }
 }
 
-export async function loginUser(userData) {
+export async function loginUser(credentials) {
 
     try {
         const request = new Request(`${baseUrl}/login`, {
@@ -38,7 +38,7 @@ export async function loginUser(userData) {
             headers: contentTypeHeader,
             redirect: 'follow',
             referrerPolicy: 'no-referrer',
-            body: JSON.stringify(userData)
+            body: JSON.stringify(credentials)
         });
 
         const response = await fetch(request);
