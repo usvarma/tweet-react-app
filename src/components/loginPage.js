@@ -1,6 +1,7 @@
 
-import { React, useRef, useState, useEffect } from "react";
+import { React, useRef, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext, UserContextProvider } from "../context/usercontext";
 import { SetToken } from "../services/TokenService";
 import { loginUser } from "../services/UserService";
 import '../styles/loginpage.css';
@@ -9,19 +10,22 @@ const isEmpty = function (inputValue) {
   return inputValue === null || inputValue === undefined || inputValue.trim().length === 0;
 }
 
+
 const LoginSignUp = () => {
   
   const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {state, setCurrentState } = useContext(UserContext);
   const[isFormSubmitted, setIsFormSubmitted] = useState(false);
   const navigate = useNavigate();
   
+  //console.log(state);
+  //console.log(JSON.stringify(setCurrentState));
 
   let username = useRef(null);
   let password = useRef(null);
   
   let areFieldsEmpty = function(){ 
-    setAreInputFieldsEmpty(isEmpty(emailAddress?.current?.value) || isEmpty(password?.current?.value));
+    setAreInputFieldsEmpty(isEmpty(username?.current?.value) || isEmpty(password?.current?.value));
     return;
   }
 
@@ -46,17 +50,18 @@ const LoginSignUp = () => {
             try {
                 let registerResponse = await loginUser(credentials);
                 SetToken(registerResponse);
-                setIsLoggedIn(true);
+                setCurrentState.setIsLoggedIn(true);
             } catch (error) {
                 console.log(error);
             }
         }
         userLogin(credentials);
     }
-},[isFormSubmitted])
+},[isFormSubmitted, setCurrentState])
+
 
   return (
-
+    
     <div className="container">
       <h2>Login to Tweet App</h2>
       <form onSubmit={event => {onSubmitLogin(event)}}>
@@ -74,7 +79,7 @@ const LoginSignUp = () => {
         <button type="submit" className="btn btn-primary" id="signUpBtn" onClick={goToRegisterPage}>Sign Up</button>
       </div>
     </div>
-
+    
   );
 
 
