@@ -3,18 +3,20 @@ import { useState, useEffect, useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/UserService";
 
-const isEmpty = function (inputValue) {
-    return inputValue === null || inputValue === undefined || inputValue.length > 0;
-}
-
 
 const RegisterComponent = () => {
 
-    let emailAddress = useRef(null);
-    let username = useRef(null);
-    let password = useRef(null);
-    let confirmPassword = useRef(null);
-    let phonenumber = useRef(null);
+    const[emailAddress, setEmailAddress] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
+
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isUsernameValid, setIsUsernameValid] = useState(false);
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
+    const [isPhonenumberValid, setIsPhonenumberValid] = useState(false);
 
     const [isEmailAddressTouched, setIsEmailAddressTouched] = useState(false);
     const [isUsernameTouched, setIsUsernameTouched] = useState(false);
@@ -22,96 +24,98 @@ const RegisterComponent = () => {
     const [isConfirmPasswordTouched, setIsConfirmPasswordTouched] = useState(false);
     const [isPhonenumberTouched, setIsPhonenumberTouched] = useState(false);
 
-    let isEmailValid, isUsernameValid, isPasswordValid, isConfirmPasswordValid, isPhonenumberValid;
-    isEmailValid = isUsernameValid = isPasswordValid = isConfirmPasswordValid = isPhonenumberValid = false;
+    const [isEmailInputValid, setIsEmailInputValid] = useState(false);
+    const [isUsernameInputValid, setIsUsernameInputValid] = useState(false);
+    const [isPasswordInputValid, setIsPasswordInputValid] = useState(false);
+    const [isConfirmPasswordInputValid, setIsConfirmPasswordInputValid] = useState(false);
+    const [isPhonenumberInputValid, setIsPhonenumberInputValid] = useState(false);
 
     const [user, setUser] = useState(null);
-    const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
     const [doPasswordsMatch, setDoPasswordsMatch] = useState(false);
-    const[isFormSubmitted, setIsFormSubmitted] = useState(false);    
+    const[isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const[isFormValid, setIsFormValid] = useState(false);    
     const navigate = useNavigate();
 
-    const areFieldsEmpty = function () {
-        setAreInputFieldsEmpty(isEmpty(emailAddress) || isEmpty(username) || isEmpty(password) || isEmpty(confirmPassword) || isEmpty(phonenumber));
-        return;
-    }
-
-    const doPasswordFieldsMatch = function () {
-        setDoPasswordsMatch(isPasswordValid && isConfirmPasswordValid && password?.current?.value === confirmPassword?.current?.value);
-        return;
-    }
-
-    const areInputsValidAndTouched = function(){
-        let isEmailInputValid = isEmailValid && isEmailAddressTouched;
-        let isUsernameInputValid = isUsernameValid && isUsernameTouched;
-        let isPasswordInputValid = isPasswordValid && isPasswordTouched;
-        let isConfirmPasswordInputValid = isConfirmPasswordValid && isConfirmPasswordTouched;
-        let isPhonenumberInputValid = isPhonenumberValid && isPhonenumberTouched;
-
-        return  isEmailInputValid && isUsernameInputValid && isPasswordInputValid && isConfirmPasswordInputValid && isPhonenumberInputValid;
-    }
-    const isFormValid = function(){
-        !areFieldsEmpty() && doPasswordFieldsMatch() && areInputsValidAndTouched();
-    }
-    const validateEmail = function () {
-        let email = emailAddress?.current?.value.trim();
-        if(email && email.includes('@') && email.length >= 6 && email.length <= 254){
-            isEmailValid = true;
+    const validateEmail = function (event) {
+        let email = event.target.value.trim();
+        setEmailAddress(email);
+        if(email && email.includes('@') && email.includes('.') && email.length >= 6 && email.length <= 254){
+            setIsEmailValid(true);
+        }else{
+            setIsEmailValid(false);
         }
+        //console.log(`In validateEmail, isEmailValid: ${isEmailValid}`)
     }
 
-    const emailBlurHandler = function () {
+    const emailBlurHandler = function (event) {
         setIsEmailAddressTouched(true);
+        //console.log(`In emailBlurHandler, isEmailAddressTouched is: ${isEmailAddressTouched}`);
     }
 
-    const validateUsername = function () {
-        let name = username?.current?.value.trim();
-        if(name && name.length >= 6){
-            isPasswordValid = true;
+    const validateUsername = function (event) {
+        let username = event.target.value.trim();
+        setUsername(username);
+        if(username && username.length >= 6){
+            setIsUsernameValid(true);
+        }else{
+            setIsUsernameValid(false);
         }
+        //console.log(`In validateUsername, isUsernameValid: ${isUsernameValid}`)
     }
 
-    const usernameBlurHandler = function () {
+    const usernameBlurHandler = function (event) {
         setIsUsernameTouched(true);
     }
 
-    const validatePassword = function () {
-        let passwd = password?.current?.value.trim();
-        if(passwd && passwd.length >= 6){
-            isPasswordValid = true;
+    const validatePassword = function (event) {
+        let passwd = event.target.value.trim();
+        setPassword(passwd);
+        if (passwd && passwd.length >= 6) {
+            setIsPasswordValid(true);
+        } else {
+            setIsPasswordValid(false);
         }
+        //console.log(`In validatePassword, isPasswordValid: ${isPasswordValid}`)
     }
 
-    const passwordBlurHandler = function () {
+    const passwordBlurHandler = function (event) {
         setIsPasswordTouched(true);
-    }
+     }
 
-    const validateConfirmPassword = function () {
-        let passwd = confirmPassword?.current?.value.trim();
+    const validateConfirmPassword = function (event) {
+        let passwd = event.target.value.trim();
+        setConfirmPassword(passwd);
         if(passwd && passwd.length >= 6){
-            isPasswordValid = true;
+            setIsConfirmPasswordValid(true);
+        }else{
+            setIsConfirmPasswordValid(false);
         }
+        //console.log(`In validateConfirmPassword, isConfirmPasswordValid: ${isConfirmPasswordValid}`)
     }
 
-    const confirmPasswordBlurHandler = function () {
+    const confirmPasswordBlurHandler = function (event) {
         setIsConfirmPasswordTouched(true);
     }
 
-    const validatePhonenumber = function () {
-        let phone = phonenumber?.current?.value.trim();
+    const validatePhonenumber = function (event) {
+        let phone = event.target.value.trim();
+        setPhonenumber(phone);
         if(phone && phone.length === 10){
-            isPhonenumberValid = true;
+            setIsPhonenumberValid(true);
+        }else{
+            setIsPhonenumberValid(false);
         }
+        //console.log(`In validatePhonenumber, isPhonenumberValid: ${isPhonenumberValid}`)
     }
 
-    const phonenumberBlurHandler = function () {
+    const phonenumberBlurHandler = function (event) {
         setIsPhonenumberTouched(true);
     }
-
+ 
            
     useEffect(()=>{
         if(isFormSubmitted){
-            let userData = { 'name': username?.current?.value, 'emailAddress': emailAddress?.current?.value, 'username': username?.current?.value, 'Password': password?.current?.value };
+            let userData = { 'name': username, 'emailAddress': emailAddress, 'username': username, 'Password': password };
             
             const userRegister = async (userData) => {
                 try {
@@ -123,12 +127,26 @@ const RegisterComponent = () => {
             }
             userRegister(userData);
         }
-    },[isFormSubmitted])
+        
+    },[emailAddress, isFormSubmitted, password, username])
+
+    useEffect(() => {
+        //console.log(`In useEffect for updating form state`);
+        setDoPasswordsMatch(password === confirmPassword);
+        setIsEmailInputValid(isEmailValid && isEmailAddressTouched);
+        setIsUsernameInputValid(isUsernameValid && isUsernameTouched);
+        setIsPasswordInputValid(isPasswordValid && isPasswordTouched);
+        setIsConfirmPasswordInputValid(isConfirmPasswordValid && isConfirmPasswordTouched);
+        setIsPhonenumberInputValid(isPhonenumberValid && isPhonenumberTouched);
+    
+        setIsFormValid(isEmailInputValid && isUsernameInputValid && isPasswordInputValid && isConfirmPasswordInputValid && isPhonenumberInputValid && doPasswordsMatch);
+        //setIsFormValid(isEmailValid && isUsernameValid && isPasswordValid && isConfirmPasswordValid && isPhonenumberValid && doPasswordsMatch);
+    }, [isEmailInputValid, isUsernameInputValid, isPasswordInputValid, isConfirmPasswordInputValid, isPhonenumberInputValid, doPasswordsMatch, password, confirmPassword, isEmailValid, isEmailAddressTouched, isUsernameValid, isUsernameTouched, isPasswordValid, isPasswordTouched, isConfirmPasswordValid, isConfirmPasswordTouched, isPhonenumberValid, isPhonenumberTouched])
     
     function onSubmitRegister(event){
         //Browser re-renders the component by default post form-submission. This is to stop re-rendering.
         event.preventDefault();
-        if (areInputFieldsEmpty || !doPasswordsMatch) {
+        if (!doPasswordsMatch) {
 
             navigate('/register');
         }
@@ -137,31 +155,30 @@ const RegisterComponent = () => {
         }
     }
 
-
     return (
         <div className="container">
             <form onSubmit={onSubmitRegister}>
                 <div className="form-group">
                     <label htmlFor="registerEmail" className="mt-4">Email address</label>
-                    <input required type="email" className="form-control mt-2" id="registerEmail" ref={emailAddress} onChange={validateEmail} aria-describedby="Enter email" placeholder="Enter email"></input>
+                    <input required type="email" className="form-control mt-2" id="registerEmail" onChange={validateEmail} onBlur={emailBlurHandler} aria-describedby="Enter email" placeholder="Enter email"></input>
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerUsername" className="mt-4">Username</label>
-                    <input required type="text" className="form-control mt-2" id="registerUsername" ref={username} onChange={validateUsername} aria-describedby="Enter username" placeholder="Enter username"></input>
+                    <input required type="text" className="form-control mt-2" id="registerUsername" onChange={validateUsername} onBlur={usernameBlurHandler} aria-describedby="Enter username" placeholder="Enter username"></input>
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerPassword" className="mt-4">Password</label>
-                    <input required type="password" className="form-control mt-2" id="registerPassword" ref={password} onChange={validatePassword} aria-describedby="Enter password" placeholder="Enter password"></input>
+                    <input required type="password" className="form-control mt-2" id="registerPassword" onChange={validatePassword} onBlur={passwordBlurHandler} aria-describedby="Enter password" placeholder="Enter password"></input>
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerConfirmPassword" className="mt-4">Confirm Password</label>
-                    <input required type="password" className="form-control mt-2" id="registerConfirmPassword" ref={confirmPassword} onChange={validateConfirmPassword} aria-describedby="Confirm password" placeholder="Confirm password"></input>
+                    <input required type="password" className="form-control mt-2" id="registerConfirmPassword" onChange={validateConfirmPassword} onBlur={confirmPasswordBlurHandler} aria-describedby="Confirm password" placeholder="Confirm password"></input>
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerPhone" className="mt-4">Phone Number</label>
-                    <input required type="text" className="form-control mt-2" id="registerPhone" ref={phonenumber} onChange={validatePhonenumber} aria-describedby="Enter phone number" placeholder="Enter phone number"></input>
+                    <input required type="text" className="form-control mt-2" id="registerPhone" onChange={validatePhonenumber} onBlur={phonenumberBlurHandler} aria-describedby="Enter phone number" placeholder="Enter phone number"></input>
                 </div>
-                <button type="submit" className={`btn btn-primary mt-4 ${isFormValid ? "disabled" : ""}`}>Sign Up</button>
+                <button type="submit" className={`btn btn-primary mt-4 ${isFormValid ? "" : "disabled"}`}>Sign Up</button>
             </form>
         </div>
 
