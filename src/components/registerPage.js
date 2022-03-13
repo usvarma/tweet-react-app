@@ -39,6 +39,7 @@ const RegisterComponent = () => {
     const validateEmail = function (event) {
         let email = event.target.value.trim();
         setEmailAddress(email);
+        setIsEmailAddressTouched(false);
         if(email && email.includes('@') && email.includes('.') && email.length >= 6 && email.length <= 254){
             setIsEmailValid(true);
         }else{
@@ -55,6 +56,7 @@ const RegisterComponent = () => {
     const validateUsername = function (event) {
         let username = event.target.value.trim();
         setUsername(username);
+        setIsUsernameTouched(false);
         if(username && username.length >= 6){
             setIsUsernameValid(true);
         }else{
@@ -70,6 +72,7 @@ const RegisterComponent = () => {
     const validatePassword = function (event) {
         let passwd = event.target.value.trim();
         setPassword(passwd);
+        setIsPasswordTouched(false);
         if (passwd && passwd.length >= 6) {
             setIsPasswordValid(true);
         } else {
@@ -85,6 +88,7 @@ const RegisterComponent = () => {
     const validateConfirmPassword = function (event) {
         let passwd = event.target.value.trim();
         setConfirmPassword(passwd);
+        setIsConfirmPasswordTouched(false);
         if(passwd && passwd.length >= 6){
             setIsConfirmPasswordValid(true);
         }else{
@@ -100,6 +104,7 @@ const RegisterComponent = () => {
     const validatePhonenumber = function (event) {
         let phone = event.target.value.trim();
         setPhonenumber(phone);
+        setIsPhonenumberTouched(false);
         if(phone && phone.length === 10){
             setIsPhonenumberValid(true);
         }else{
@@ -161,22 +166,27 @@ const RegisterComponent = () => {
                 <div className="form-group">
                     <label htmlFor="registerEmail" className="mt-4">Email address</label>
                     <input required type="email" className="form-control mt-2" id="registerEmail" onChange={validateEmail} onBlur={emailBlurHandler} aria-describedby="Enter email" placeholder="Enter email"></input>
+                {!isEmailValid && isEmailAddressTouched && <p>Email should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerUsername" className="mt-4">Username</label>
                     <input required type="text" className="form-control mt-2" id="registerUsername" onChange={validateUsername} onBlur={usernameBlurHandler} aria-describedby="Enter username" placeholder="Enter username"></input>
+                    {!isUsernameValid && isUsernameTouched && <p>Username should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerPassword" className="mt-4">Password</label>
                     <input required type="password" className="form-control mt-2" id="registerPassword" onChange={validatePassword} onBlur={passwordBlurHandler} aria-describedby="Enter password" placeholder="Enter password"></input>
+                    {!isPasswordValid && isPasswordTouched && <p>Password should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerConfirmPassword" className="mt-4">Confirm Password</label>
                     <input required type="password" className="form-control mt-2" id="registerConfirmPassword" onChange={validateConfirmPassword} onBlur={confirmPasswordBlurHandler} aria-describedby="Confirm password" placeholder="Confirm password"></input>
+                    {!isConfirmPasswordValid && isConfirmPasswordTouched && <p>Confirmation password should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerPhone" className="mt-4">Phone Number</label>
-                    <input required type="text" className="form-control mt-2" id="registerPhone" onChange={validatePhonenumber} onBlur={phonenumberBlurHandler} aria-describedby="Enter phone number" placeholder="Enter phone number"></input>
+                    <input required type="tel" className="form-control mt-2" id="registerPhone" onChange={validatePhonenumber} onBlur={phonenumberBlurHandler} aria-describedby="Enter phone number" placeholder="Enter phone number"></input>
+                    {!isPhonenumberValid && isPhonenumberTouched && <p>Phone number should be numeric and 10 digit long</p>}
                 </div>
                 <button type="submit" className={`btn btn-primary mt-4 ${isFormValid ? "" : "disabled"}`}>Sign Up</button>
             </form>
