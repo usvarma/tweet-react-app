@@ -46,7 +46,7 @@ export async function loginUser(credentials) {
             throw new Error(`${response.status}`);
         }
         
-        return await response.json();
+        return await response.text();
 
     } catch (error) {
         throw error;

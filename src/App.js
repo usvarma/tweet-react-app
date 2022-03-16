@@ -13,7 +13,7 @@ function App() {
 
   return (
     <Router><div className="App">
-      <UserContext.Provider value={UserContext}>
+      <UserContext.Provider value={userContext}>
       <Routes>
         <Route exact path="/" element={!userContext.isLoggedIn && <LoginSignUp/>} />
         <Route path="/login" element={!userContext.isLoggedIn && <LoginSignUp/>} />

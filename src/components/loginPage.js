@@ -1,7 +1,7 @@
 
 import { React, useRef, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext, UserContextProvider } from "../context/usercontext";
+import { UserContext } from "../context/usercontext";
 import { SetToken } from "../services/TokenService";
 import { loginUser } from "../services/UserService";
 import '../styles/loginpage.css';
@@ -11,10 +11,11 @@ const isEmpty = function (inputValue) {
 }
 
 
-const LoginSignUp = () => {
+const LoginSignUp = (props) => {
   
+  const userContext = useContext(UserContext);
   const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
-  const {state, setCurrentState } = useContext(UserContext);
+  //const {state, setCurrentState } = useContext(UserContext);
   const[isFormSubmitted, setIsFormSubmitted] = useState(false);
   const navigate = useNavigate();
   
@@ -44,20 +45,20 @@ const LoginSignUp = () => {
 
   useEffect(()=>{
     if(isFormSubmitted){
-        let credentials = {'Username': username?.current?.value, 'Password': password?.current?.value };
-        
-        const userLogin = async (credentials) => {
-            try {
-                let registerResponse = await loginUser(credentials);
-                SetToken(registerResponse);
-                setCurrentState.setIsLoggedIn(true);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        userLogin(credentials);
-    }
-},[isFormSubmitted, setCurrentState])
+        //let credentials = {'username': username?.current?.value, 'password': password?.current?.value };
+        console.log(userContext);
+        userContext.onLogin(username?.current?.value, password?.current?.value);
+      //   const userLogin = async (credentials) => {
+      //       try {
+      //           let loginResponse = await loginUser(credentials);
+      //           SetToken(loginResponse);
+      //         } catch (error) {
+      //           console.log(error);
+      //       }
+      //   }
+      //   userLogin(credentials);
+       }
+},[isFormSubmitted, userContext])
 
 
   return (
