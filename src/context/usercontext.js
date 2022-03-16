@@ -1,23 +1,43 @@
-import { React, useState, createContext } from "react";
+import { React, useState, createContext, useEffect } from "react";
 
-const currentState = {user: null, isLoggedIn: false};
-export const UserContext = createContext({state:{},setCurrentState:()=>{}});
+const currentState = {user: {username: ''}, isLoggedIn: false};
+export const UserContext = createContext({state:currentState, onLogout:()=>{}, onLogin:()=>{}});
 
-export const UserContextProvider = ({children}) =>{
+export const UserContextProvider = (props) =>{
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-    const setUserState = (user, isLoggedIn)=>{
-      setUser(user);
-      setIsLoggedIn(isLoggedIn);
-    }
+    useEffect(() => {
+      const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
+  
+      if (storedUserLoggedInInformation === '1') {
+        setIsLoggedIn(true);
+      }
+    }, []);
+  
+    const logoutHandler = () => {
+      localStorage.removeItem('isLoggedIn');
+      setIsLoggedIn(false);
+      setUser({username: ''});
+    };
+  
+    const loginHandler = () => {
+      localStorage.setItem('isLoggedIn', '1');
+      setIsLoggedIn(true);
+      setUser({username: ''});
+    };
+  
 
     //UserContext = {state: currentState, setCurrentState: setUserState};
 
     return (
         // the Provider gives access to the context to its children
-        <UserContext.Provider value={{state: currentState, setCurrentState: setUserState}}>
-          {children}
+        <UserContext.Provider value={{
+          isLoggedIn: isLoggedIn,
+          onLogout: logoutHandler,
+          onLogin: loginHandler,
+        }}>
+          {props.children}
         </UserContext.Provider>
       );
     

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginSignUp from './components/loginPage';
 import TweetAppComponent from './components/tweetApp';
@@ -9,16 +9,17 @@ import './App.css';
 
 
 function App() {
-    
+    const userContext = useContext(UserContext);
+
   return (
     <Router><div className="App">
       <UserContext.Provider value={UserContext}>
       <Routes>
-        <Route exact path="/" element={<LoginSignUp/>} />
-        <Route path="/login" element={<LoginSignUp/>} />
-        <Route path="/user/tweets" element={<TweetAppComponent/>} />
-        <Route path="/register" element={<RegisterComponent/>} />
-        <Route path="/users" element={<Users/>} />
+        <Route exact path="/" element={!userContext.isLoggedIn && <LoginSignUp/>} />
+        <Route path="/login" element={!userContext.isLoggedIn && <LoginSignUp/>} />
+        <Route path={`/${userContext?.state?.user?.username}/tweets`} element={userContext.isLoggedIn && <TweetAppComponent/>} />
+        <Route path="/register" element={!userContext.isLoggedIn && <RegisterComponent/>} />
+        <Route path="/users" element={userContext.isLoggedIn && <Users/>} />
       </Routes>
       </UserContext.Provider>
     </div>
