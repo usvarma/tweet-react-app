@@ -1,27 +1,27 @@
-import { React, useState, useContext } from "react";
+import { React, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginSignUp from './components/loginPage';
 import TweetAppComponent from './components/tweetApp';
 import RegisterComponent from './components/registerPage';
 import Users from './components/users';
-import { UserContext, UserContextProvider } from "./context/usercontext";
+import UserContext from "./context/usercontext";
 import './App.css';
 
 
 function App() {
+    //const {user, isLoggedIn, onLogin, onLogout} = useContext(UserContext);
     const userContext = useContext(UserContext);
-
-  return (
+    //console.log(userContext);
+    return (
     <Router><div className="App">
-      <UserContext.Provider value={userContext}>
       <Routes>
         <Route exact path="/" element={!userContext.isLoggedIn && <LoginSignUp/>} />
         <Route path="/login" element={!userContext.isLoggedIn && <LoginSignUp/>} />
-        <Route path={`/${userContext?.state?.user?.username}/tweets`} element={userContext.isLoggedIn && <TweetAppComponent/>} />
+        <Route path={`/${userContext?.user?.username}/tweets`} element={userContext.isLoggedIn && <TweetAppComponent/>} />
         <Route path="/register" element={!userContext.isLoggedIn && <RegisterComponent/>} />
         <Route path="/users" element={userContext.isLoggedIn && <Users/>} />
       </Routes>
-      </UserContext.Provider>
+      
     </div>
     </Router>
   );
