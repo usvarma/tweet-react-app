@@ -6,7 +6,7 @@ import Timeline from './timeline';
 import HeaderNav from './headernav';
 import { FaTwitter } from 'react-icons/fa';
 import '../styles/tweetapp.css';
-import { getAllTweetsOfUser } from "../services/TweetService";
+import { getAllTweetsOfUser, addTweetsForUser } from "../services/TweetService";
 import UserContext from "../context/usercontext";
 
 
@@ -14,21 +14,26 @@ const TweetAppComponent = () => {
 
   const userContext = useContext(UserContext);
   //console.log(userContext);
-  const [user, setUser] = useState(null);
+  //const [user, setUser] = useState(null);
   const [tweets, setTweets] = useState([]);
+  const [tweet, setTweet] = useState({});
+  const[isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const[isTweetAdded, setIsTweetAdded] = useState(false);
+  const[tweetDeleted, setIsTweetDeleted] = useState(false);
 
-  if (user == null && userContext?.user !== null) {
-    setUser(userContext.user); console.log(user);
-  }
+  let loggedInUser = JSON.parse(localStorage.getItem("username")) || "";
+  // if (user == null && userContext?.user !== null) {
+  //   setUser(userContext.user); console.log(user);
+  // }
 
   useEffect(() => {
     //console.log(userContext);
 
     const getTweets = async () => {
       try {
-        if (userContext.user !== null) {
-          console.log(userContext?.user?.username);
-          let getTweetsResponse = await getAllTweetsOfUser(userContext?.user?.username);
+        if (loggedInUser?.trim().length > 0 || isTweetAdded) {
+          //console.log(userContext?.user?.username);
+          let getTweetsResponse = await getAllTweetsOfUser(loggedInUser);
           console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
           setTweets(getTweetsResponse);
         }
@@ -39,20 +44,36 @@ const TweetAppComponent = () => {
 
     getTweets();
 
-  }, [userContext?.user])
+  }, [loggedInUser, isTweetAdded])
+
+  useEffect(()=>{
+    if(loggedInUser?.trim().length > 0 && isFormSubmitted){
+        //let userData = { 'name': username, 'emailAddress': emailAddress, 'username': username, 'Password': password };
+        
+        const postTweet = async (tweet) => {
+            try {
+                let addTweetResponse = await addTweetsForUser(tweet, loggedInUser);
+                setIsTweetAdded(true);
+                //setUser(addTweetResponse);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        postTweet(tweet);
+    }
+    
+},[isFormSubmitted])
 
   const handlePostTweet = (content) => {
     const newTweet = {
-      content,
-      id: nanoid(),
-      created_on: Date(Date.now()),
-      user: user?.username,
-      comments_count: 0,
-      retweets_count: 0,
-      favorites_count: 0,
+      message: content,
+      Tweetid: 1,
+      postedon: new Date(Date.now()).toJSON(),
+      username: loggedInUser
     }
 
-    setTweets([...tweets, newTweet])
+    setTweet(newTweet);
+    setIsFormSubmitted(true);
   }
 
 

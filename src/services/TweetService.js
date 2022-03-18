@@ -54,30 +54,31 @@ export async function getAllTweetsOfUser(username) {
     }
 }
 
-// export async function addTweetsForUser(tweetData, username) {
+export async function addTweetsForUser(tweetData, username) {
+    const token = await GetToken(); //Add call to tokenservice to get token
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
+    try {
+        const request = new Request(`${baseUrl}/${username}/add`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: requestHeader,
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(tweetData)
+        });
 
-//     try {
-//         const request = new Request(`${baseUrl}/${username}/add`, {
-//             method: 'POST',
-//             mode: 'cors',
-//             cache: 'no-cache',
-//             headers: requestHeader,
-//             redirect: 'follow',
-//             referrerPolicy: 'no-referrer',
-//             body: JSON.stringify(tweetData)
-//         });
-
-//         const response = await fetch(request);
-//         if (!response.ok) {
-//             throw new Error(`${response.status}`);
-//         }
+        const response = await fetch(request);
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
         
-//         return await response.json();
+        return await response.json();
 
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+    } catch (error) {
+        throw error;
+    }
+}
 
 // export async function updateTweetsForUser(updatedTweet, username, id) {
 

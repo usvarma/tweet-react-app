@@ -17,18 +17,18 @@ export const UserContextProvider = (props) => {
     if (token !== undefined && token !== null && token.trim().length > 0) {
       setIsLoggedIn(true);
 
-      const getUserFromToken = async () => {
-        try {
-          let response = await GetUserInfo(token);
-          //let userFromToken = await response.json();
-          console.log(response);
-        } catch (error) {
-          console.log(error);
-        }
+      // const getUserFromToken = async () => {
+      //   try {
+      //     let response = await GetUserInfo(token);
+      //     //let userFromToken = await response.json();
+      //     console.log(response);
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
 
-      }
-      getUserFromToken();
-      console.log();
+      // }
+      // getUserFromToken();
+      // console.log();
     }
 
     //setUser(UserContext.user)
@@ -39,7 +39,7 @@ export const UserContextProvider = (props) => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUser(null);
-    UserContext.user = user;
+    localStorage.removeItem("username");
   };
 
   const loginHandler = (username, password) => {
@@ -50,6 +50,10 @@ export const UserContextProvider = (props) => {
         SetToken(loginResponse);
         setIsLoggedIn(true);
         setUser({ username: username });
+        if(username?.trim().length > 0){
+          localStorage.setItem("username", JSON.stringify(username));
+        }
+        
         //UserContext.user = user;
         //console.log(`user in usercontext after login ${UserContext.user}`);
       } catch (error) {
