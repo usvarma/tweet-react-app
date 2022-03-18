@@ -26,10 +26,12 @@ const TweetAppComponent = () => {
 
     const getTweets = async () => {
       try {
-        let getTweetsResponse = await getAllTweetsOfUser(user?.username);
-        console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
-        setTweets(getTweetsResponse);
-
+        if (userContext.user !== null) {
+          console.log(userContext?.user?.username);
+          let getTweetsResponse = await getAllTweetsOfUser(userContext?.user?.username);
+          console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
+          setTweets(getTweetsResponse);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -37,7 +39,7 @@ const TweetAppComponent = () => {
 
     getTweets();
 
-  }, [])
+  }, [userContext?.user])
 
   const handlePostTweet = (content) => {
     const newTweet = {

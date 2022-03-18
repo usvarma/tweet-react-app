@@ -31,7 +31,7 @@ const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
 
 export async function getAllTweetsOfUser(username) {
     const token = await GetToken(); //Add call to tokenservice to get token
-    const requestHeader = {'Content-Type': 'application/json', 'Authorization':token};
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
     try {
         const request = new Request(`${baseUrl}/${username}`, {
             method: 'GET',

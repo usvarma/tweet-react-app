@@ -18,13 +18,15 @@ export const UserContextProvider = (props) => {
       setIsLoggedIn(true);
 
     }
-
+    //setUser(UserContext.user)
   }, []);
 
   const logoutHandler = () => {
+    console.log(`logoutHandler called`);
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUser({ username: '' });
+    UserContext.user = user;
   };
 
   const loginHandler = (username, password) => {
@@ -35,7 +37,8 @@ export const UserContextProvider = (props) => {
         SetToken(loginResponse);
         setIsLoggedIn(true);
         setUser({ username: username });
-        //console.log(`user in usercontext ${JSON.stringify(user)}`);
+        UserContext.user = user;
+        console.log(`user in usercontext after login ${UserContext.user}`);
       } catch (error) {
         throw error;
       }

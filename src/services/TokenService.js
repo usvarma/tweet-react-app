@@ -1,7 +1,7 @@
 const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
 const contentTypeHeader = { 'Content-Type': 'application/json' };
 
-let _token = JSON.parse(localStorage.getItem("token")) || "";
+let _token = localStorage.getItem("token") || "";
 
 const getExpirationDate = (jwtToken) => {
     if (!jwtToken) return null;
@@ -50,7 +50,7 @@ export const GetToken = async () => {
             throw error;
         }
     }
-
+    return _token;
 };
 
 export const SetToken = (token) => {
