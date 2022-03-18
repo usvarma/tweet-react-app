@@ -39,15 +39,16 @@ const LoginSignUp = (props) => {
 
   useEffect(() => {
     if (isFormSubmitted) {
-      ctx.onLogin(username?.current?.value, password?.current?.value);
-    }
-  }, [isFormSubmitted, ctx])
+      try {
+        ctx.onLogin(username?.current?.value, password?.current?.value);
+        navigate('/username/tweets');
+      } catch (error) {
+        navigate('/');
+      }
+      //console.log(`In useEffect of loginPage after form submission, usercontext is: ${JSON.stringify(ctx)}`);
+}
+  }, [isFormSubmitted, ctx, navigate])
 
-  useEffect(() => {
-    if (ctx?.user?.username) {
-      navigate('/username/tweets');
-    }
-  }, [ctx, navigate])
 
   return (
 

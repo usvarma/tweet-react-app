@@ -9,15 +9,14 @@ import './App.css';
 
 
 function App() {
-    //const {user, isLoggedIn, onLogin, onLogout} = useContext(UserContext);
     const userContext = useContext(UserContext);
-    //console.log(userContext);
+    
     return (
     <Router><div className="App">
       <Routes>
         <Route exact path="/" element={!userContext.isLoggedIn && <LoginSignUp/>} />
         <Route path="/login" element={!userContext.isLoggedIn && <LoginSignUp/>} />
-        <Route path={`/${userContext?.user?.username}/tweets`} element={userContext.isLoggedIn && <TweetAppComponent/>} />
+        <Route path={`/username/tweets`} element={userContext.isLoggedIn && <TweetAppComponent/>} />
         <Route path="/register" element={!userContext.isLoggedIn && <RegisterComponent/>} />
         <Route path="/users" element={userContext.isLoggedIn && <Users/>} />
       </Routes>
