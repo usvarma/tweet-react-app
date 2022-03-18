@@ -17,7 +17,7 @@ const TweetAppComponent = () => {
   const [user, setUser] = useState(null);
   const [tweets, setTweets] = useState([]);
 
-  if (user == null) {
+  if (user == null && userContext?.user !== null) {
     setUser(userContext.user); console.log(user);
   }
 

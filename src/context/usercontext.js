@@ -7,16 +7,18 @@ const UserContext = createContext({ user:{}, isLoggedIn: false, onLogout: () => 
 
 export const UserContextProvider = (props) => {
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-    
+  
+  
   useEffect(() => {
     const token = localStorage.getItem('token');
-
+    //Need to validate token using tokenservice; for now any token will be valid
     if (token !== undefined && token !== null && token.trim().length > 0) {
       setIsLoggedIn(true);
-      
+
     }
+
   }, []);
 
   const logoutHandler = () => {
