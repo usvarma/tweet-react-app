@@ -1,5 +1,9 @@
+import {useContext} from "react";
+import UserContext from "../context/usercontext"
+
+
 function HeaderNav({ tweets }) {
-  
+let userContext = useContext(UserContext);  
     return (
     <div className="container">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -9,7 +13,7 @@ function HeaderNav({ tweets }) {
                     <a className="nav-item nav-link" href="/register">Register</a>
                     <a className="nav-item nav-link" href="/user/tweets">Tweets</a>
                     <a className="nav-item nav-link" href="/users">All Users</a>
-                    <a className="nav-item nav-link" href="/login">Log Out</a>
+                    <a className="nav-item nav-link" href="/" onClick={userContext.onLogout}>Log Out</a>
                 </div>
             </div>
         </nav>

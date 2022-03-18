@@ -1,7 +1,7 @@
 const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
 const contentTypeHeader = { 'Content-Type': 'application/json' };
 
-let _token = localStorage.getItem("token") || "";
+let _token = JSON.parse(localStorage.getItem("token"))|| "";
 
 const getExpirationDate = (jwtToken) => {
     if (!jwtToken) return null;
@@ -65,15 +65,17 @@ export const SetToken = (token) => {
 
 export const GetUserInfo = async () => {
     let token = await GetToken();
+    console.log(`Token in GetUserInfo is ${token}`);
     if (!token || !token.trim()) {
         return null;
     } else {
-        const jwt = JSON.parse(atob(token.split(".")[1]));
+        console.log(token);
+        const jwt = atob(token.split(".")[1]);
         let user = {
             userName: jwt.unique_name,
             emailId: jwt.email,
             name: jwt.name,
-            image: jwt.given_name?.toLowerCase(),
+            //image: jwt.given_name?.toLowerCase(),
         };
         return user;
     }

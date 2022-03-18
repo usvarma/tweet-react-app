@@ -1,5 +1,5 @@
 import { React, useState, createContext, useEffect } from "react";
-import { SetToken } from "../services/TokenService";
+import { GetUserInfo, SetToken } from "../services/TokenService";
 import { loginUser } from "../services/UserService";
 
 
@@ -17,7 +17,20 @@ export const UserContextProvider = (props) => {
     if (token !== undefined && token !== null && token.trim().length > 0) {
       setIsLoggedIn(true);
 
+      const getUserFromToken = async () => {
+        try {
+          let response = await GetUserInfo(token);
+          //let userFromToken = await response.json();
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+
+      }
+      getUserFromToken();
+      console.log();
     }
+
     //setUser(UserContext.user)
   }, []);
 
@@ -25,7 +38,7 @@ export const UserContextProvider = (props) => {
     console.log(`logoutHandler called`);
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    setUser({ username: '' });
+    setUser(null);
     UserContext.user = user;
   };
 
@@ -37,8 +50,8 @@ export const UserContextProvider = (props) => {
         SetToken(loginResponse);
         setIsLoggedIn(true);
         setUser({ username: username });
-        UserContext.user = user;
-        console.log(`user in usercontext after login ${UserContext.user}`);
+        //UserContext.user = user;
+        //console.log(`user in usercontext after login ${UserContext.user}`);
       } catch (error) {
         throw error;
       }
