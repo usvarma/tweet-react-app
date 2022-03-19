@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useContext, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import ComposeForm from './composeform';
 import Timeline from './timeline';
 import HeaderNav from './headernav';

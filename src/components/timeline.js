@@ -6,9 +6,9 @@ function Timeline({ tweets }) {
   
   return (
     <ul className="timeline">
-  {tweets.sort((a, b) => new Date(a.postedon) - new Date(b.postedon)).map(({ tweetid, username, postedon, message, repliedbyusers, likedbyusers }) => (
-      <li key={tweetid} className="timeline-item">
-        <Tweet user={username} createdOn={postedon} comments_count={repliedbyusers?.length || 0} retweets_count={repliedbyusers?.length || 0} favorites_count={likedbyusers?.length || 0}>
+  {tweets.sort((a,b) => parseInt(b.tweetId) - parseInt(a.tweetId)).map(({ tweetId, username, postedon, message, repliedByUsers, likedByUsers }) => (
+      <li key={parseInt(tweetId)} className="timeline-item">
+        <Tweet user={username} createdOn={postedon} comments_count={repliedByUsers?.length || 0} retweets_count={repliedByUsers?.length || 0} favorites_count={likedByUsers?.length || 0}>
           {message} 
         </Tweet>
       </li>
