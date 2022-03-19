@@ -18,23 +18,28 @@ const TweetAppComponent = () => {
   const [tweet, setTweet] = useState({});
   const[isFormSubmitted, setIsFormSubmitted] = useState(false);
   const[isTweetAdded, setIsTweetAdded] = useState(false);
-  
+  const [isTweetDeleted, setIsTweetDeleted] = useState(false);
+
   let loggedInUser = JSON.parse(localStorage.getItem("username")) || "";
   // if (user == null && userContext?.user !== null) {
   //   setUser(userContext.user); console.log(user);
   // }
   
+  const updateIsTweetDeleted = (updatedValue) =>{
+    setIsTweetDeleted(updatedValue);
+  }
   useEffect(() => {
     //console.log(userContext);
 
     const getTweets = async () => {
       try {
-        if (loggedInUser?.trim().length > 0 || isTweetAdded) {
+        if (loggedInUser?.trim().length > 0 || isTweetAdded || isTweetDeleted) {
           //console.log(userContext?.user?.username);
           let getTweetsResponse = await getAllTweetsOfUser(loggedInUser);
           //console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
           setTweets(getTweetsResponse);
           setIsTweetAdded(false);
+          setIsTweetDeleted(false);
         }
       } catch (error) {
         console.log(error);
@@ -43,7 +48,7 @@ const TweetAppComponent = () => {
 
     getTweets();
 
-  }, [loggedInUser, isTweetAdded])
+  }, [loggedInUser, isTweetAdded, isTweetDeleted])
 
   useEffect(()=>{
     if(loggedInUser?.trim().length > 0 && isFormSubmitted){
@@ -82,7 +87,7 @@ const TweetAppComponent = () => {
       <FaTwitter className="app-logo" size="2em" />
       <ComposeForm onSubmit={handlePostTweet} />
       <div className="separator"></div>
-      <Timeline tweets={tweets}/>
+      <Timeline tweets={tweets} tweetDeletedHandler={updateIsTweetDeleted}/>
     </div>
   )
 };

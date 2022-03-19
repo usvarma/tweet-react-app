@@ -4,23 +4,24 @@ import '../styles/tweet.css';
 import { FaRegComment, FaRetweet } from 'react-icons/fa';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { deleteTweetsForUser } from "../services/TweetService";
 
 function Tweet(props) {
-  const { tweetId, user, createdOn, children, comments_count, retweets_count, favorites_count } = props
-  const [isTweetDeleted, setIsTweetDeleted] = useState(false);
-  const navigate = useNavigate();
+  const { tweetId, user, createdOn, children, comments_count, retweets_count, favorites_count, onTweetDelete } = props
+  const [isDeleteTweetClicked, setIsDeleteTweetClicked] = useState(false);
+  //const navigate = useNavigate();
 
   useEffect(() => {
-    if (isTweetDeleted) {
+    if (isDeleteTweetClicked) {
 
       const deleteTweet = async (user, tweetId) => {
         try {
           let deleteResponse = await deleteTweetsForUser(user, tweetId);
           //console.log(`Deleted tweet with id: ${tweetId}`);
           //navigate('/username/tweets');
-
+          onTweetDelete(true);
+          setIsDeleteTweetClicked(false);
         } catch (error) {
           console.log(error);
         }
@@ -28,10 +29,11 @@ function Tweet(props) {
       deleteTweet(user, tweetId);
     }
 
-  }, [user, tweetId, isTweetDeleted, navigate])
+  }, [user, tweetId, isDeleteTweetClicked])
 
-  const deleteTweetHandler = () => {
-    setIsTweetDeleted(true);
+  const deleteTweetHandler = (event) => {
+    event.preventDefault();
+    setIsDeleteTweetClicked(true);
 
   }
 
