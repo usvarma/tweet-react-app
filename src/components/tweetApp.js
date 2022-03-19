@@ -34,6 +34,7 @@ const TweetAppComponent = () => {
           let getTweetsResponse = await getAllTweetsOfUser(loggedInUser);
           //console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
           setTweets(getTweetsResponse);
+          setIsTweetAdded(false);
         }
       } catch (error) {
         console.log(error);
