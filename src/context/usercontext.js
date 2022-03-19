@@ -48,11 +48,12 @@ export const UserContextProvider = (props) => {
       try {
         let loginResponse = await loginUser(credentials);
         SetToken(loginResponse);
-        setIsLoggedIn(true);
-        setUser({ username: username });
         if(username?.trim().length > 0){
           localStorage.setItem("username", JSON.stringify(username));
         }
+        setIsLoggedIn(true);
+        setUser({ username: username });
+        
         
         //UserContext.user = user;
         //console.log(`user in usercontext after login ${UserContext.user}`);
