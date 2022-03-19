@@ -18,13 +18,12 @@ const TweetAppComponent = () => {
   const [tweet, setTweet] = useState({});
   const[isFormSubmitted, setIsFormSubmitted] = useState(false);
   const[isTweetAdded, setIsTweetAdded] = useState(false);
-  const[tweetDeleted, setIsTweetDeleted] = useState(false);
-
+  
   let loggedInUser = JSON.parse(localStorage.getItem("username")) || "";
   // if (user == null && userContext?.user !== null) {
   //   setUser(userContext.user); console.log(user);
   // }
-
+  
   useEffect(() => {
     //console.log(userContext);
 
@@ -82,7 +81,7 @@ const TweetAppComponent = () => {
       <FaTwitter className="app-logo" size="2em" />
       <ComposeForm onSubmit={handlePostTweet} />
       <div className="separator"></div>
-      <Timeline tweets={tweets} />
+      <Timeline tweets={tweets}/>
     </div>
   )
 };
