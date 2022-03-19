@@ -6,10 +6,10 @@ function Timeline({ tweets }) {
   
   return (
     <ul className="timeline">
-  {tweets.sort((a, b) => new Date(b.created_on) - new Date(a.created_on)).map(({ id, user, created_on, content, comments_count, retweets_count, favorites_count }) => (
-      <li key={id} className="timeline-item">
-        <Tweet user={user} createdOn={created_on} comments_count={comments_count} retweets_count={retweets_count} favorites_count={favorites_count}>
-          {content} 
+  {tweets.sort((a, b) => new Date(a.postedon) - new Date(b.postedon)).map(({ tweetid, username, postedon, message, repliedbyusers, likedbyusers }) => (
+      <li key={tweetid} className="timeline-item">
+        <Tweet user={username} createdOn={postedon} comments_count={repliedbyusers?.length || 0} retweets_count={repliedbyusers?.length || 0} favorites_count={likedbyusers?.length || 0}>
+          {message} 
         </Tweet>
       </li>
     ))}

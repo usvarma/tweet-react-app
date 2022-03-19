@@ -34,7 +34,7 @@ const TweetAppComponent = () => {
         if (loggedInUser?.trim().length > 0 || isTweetAdded) {
           //console.log(userContext?.user?.username);
           let getTweetsResponse = await getAllTweetsOfUser(loggedInUser);
-          console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
+          //console.log(`getTweetsResponse in useEffect is ${getTweetsResponse}`);
           setTweets(getTweetsResponse);
         }
       } catch (error) {
@@ -62,7 +62,7 @@ const TweetAppComponent = () => {
         postTweet(tweet);
     }
     
-},[isFormSubmitted])
+},[isFormSubmitted, tweet, loggedInUser])
 
   const handlePostTweet = (content) => {
     const newTweet = {

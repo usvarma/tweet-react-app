@@ -1,8 +1,8 @@
 import React from "react";
-import { useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/UserService";
-
+import UserContext from "../context/usercontext";
 
 const RegisterComponent = () => {
 
@@ -35,6 +35,8 @@ const RegisterComponent = () => {
     const[isFormSubmitted, setIsFormSubmitted] = useState(false);
     const[isFormValid, setIsFormValid] = useState(false);    
     const navigate = useNavigate();
+
+    const ctx = useContext(UserContext);
 
     const validateEmail = function (event) {
         let email = event.target.value.trim();
@@ -126,6 +128,9 @@ const RegisterComponent = () => {
                 try {
                     let registerResponse = await registerUser(userData);
                     setUser(registerResponse);
+                    ctx.onLogin(username, password);
+                    navigate('/username/tweets');
+
                 } catch (error) {
                     console.log(error);
                 }
@@ -133,7 +138,7 @@ const RegisterComponent = () => {
             userRegister(userData);
         }
         
-    },[emailAddress, isFormSubmitted, password, username])
+    },[emailAddress, isFormSubmitted, password, username, navigate, ctx])
 
     useEffect(() => {
         //console.log(`In useEffect for updating form state`);
