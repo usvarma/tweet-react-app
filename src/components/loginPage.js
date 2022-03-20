@@ -14,6 +14,7 @@ const LoginSignUp = (props) => {
   const ctx = useContext(UserContext);
   const [areInputFieldsEmpty, setAreInputFieldsEmpty] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    
   const navigate = useNavigate();
 
   let username = useRef(null);
@@ -39,16 +40,18 @@ const LoginSignUp = (props) => {
 
   useEffect(() => {
     if (isFormSubmitted) {
-      try {
-        ctx.onLogin(username?.current?.value, password?.current?.value);
-        navigate('/username/tweets');
-      } catch (error) {
-        navigate('/');
-      }
-      //console.log(`In useEffect of loginPage after form submission, usercontext is: ${JSON.stringify(ctx)}`);
-}
+      ctx.onLogin(username?.current?.value, password?.current?.value);
+    }
+    
   }, [isFormSubmitted, ctx, navigate])
 
+  useEffect(() => {
+    if (ctx.isRequestProcessed && !ctx.hasError) {
+      navigate('/username/tweets');
+    } else {
+      navigate('/');
+    }
+  }, [ctx, navigate])
 
   return (
 
@@ -56,6 +59,7 @@ const LoginSignUp = (props) => {
       <h2>Login to Tweet App</h2>
       <form onSubmit={event => { onSubmitLogin(event) }}>
         <div className="form-group">
+          {ctx.hasError && <p>{ctx.errorMsg}</p>}
           <label htmlFor="loginEmail" className="mt-4">Username</label>
           <input required type="text" className="form-control mt-2" ref={username} id="loginUsername" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter username"></input>
         </div>

@@ -2,7 +2,8 @@
 const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
 const contentTypeHeader = {'Content-Type': 'application/json'};
 
-
+let fetchIssueMsg = 'Failed to fetch';
+let networkIssueMsg = 'Unable to login. Please check your network connection.'
 export async function registerUser(userData) {
 
     try {
@@ -49,6 +50,9 @@ export async function loginUser(credentials) {
         return await response.text();
 
     } catch (error) {
+        if(error.message.includes(fetchIssueMsg)){
+            throw new Error(networkIssueMsg)
+        }
         throw error;
     }
 }

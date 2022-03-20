@@ -3,14 +3,16 @@ import { GetUserInfo, SetToken } from "../services/TokenService";
 import { loginUser } from "../services/UserService";
 
 
-const UserContext = createContext({ user:{}, isLoggedIn: false, onLogout: () => { }, onLogin: (username, password) => { } });
+const UserContext = createContext({ user:{}, isLoggedIn: false, onLogout: () => { }, onLogin: (username, password) => { }, hasError: false, errorMsg: null, isRequestProcessed: false });
 
 export const UserContextProvider = (props) => {
 
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-  
+  const [hasError, setHasError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [isRequestProcessed, setIsRequestProcessed] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     //Need to validate token using tokenservice; for now any token will be valid
@@ -40,6 +42,8 @@ export const UserContextProvider = (props) => {
     setIsLoggedIn(false);
     setUser(null);
     localStorage.removeItem("username");
+    localStorage.removeItem('hasError');
+    localStorage.removeItem('errorMsg');
   };
 
   const loginHandler = (username, password) => {
@@ -53,12 +57,13 @@ export const UserContextProvider = (props) => {
         }
         setIsLoggedIn(true);
         setUser({ username: username });
-        
-        
-        //UserContext.user = user;
-        //console.log(`user in usercontext after login ${UserContext.user}`);
+        setIsRequestProcessed(true);
       } catch (error) {
-        throw error;
+        localStorage.setItem('hasError', true);
+        localStorage.setItem('errorMsg', error.message);
+        setHasError(true);
+        setErrorMsg(error.message);
+        setIsRequestProcessed(true);
       }
     }
     userLogin(credentials);
@@ -72,6 +77,9 @@ export const UserContextProvider = (props) => {
       isLoggedIn: isLoggedIn,
       onLogout: logoutHandler,
       onLogin: loginHandler,
+      hasError: hasError,
+      errorMsg: errorMsg,
+      isRequestProcessed: isRequestProcessed
     }}>
       {props.children}
     </UserContext.Provider>
