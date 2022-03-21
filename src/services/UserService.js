@@ -44,7 +44,9 @@ export async function loginUser(credentials) {
 
         const response = await fetch(request);
         if (!response.ok) {
-            throw new Error(`${response.status}`);
+            //console.log(`Error status text in userservice is ${JSON.parse(response)}`);
+            let errorMsg = await response.text();
+            throw new Error(errorMsg);
         }
         
         return await response.text();

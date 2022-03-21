@@ -55,10 +55,10 @@ export const UserContextProvider = (props) => {
         if(username?.trim().length > 0){
           localStorage.setItem("username", JSON.stringify(username));
         }
+        setIsRequestProcessed(true);
         setIsLoggedIn(true);
         setUser({ username: username });
-        setIsRequestProcessed(true);
-      } catch (error) {
+        } catch (error) {
         localStorage.setItem('hasError', true);
         localStorage.setItem('errorMsg', error.message);
         setHasError(true);
