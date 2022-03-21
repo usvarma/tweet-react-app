@@ -37,7 +37,7 @@ export const UserContextProvider = (props) => {
   }, []);
 
   const logoutHandler = () => {
-    console.log(`logoutHandler called`);
+    //console.log(`logoutHandler called`);
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUser(null);

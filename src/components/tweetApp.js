@@ -1,35 +1,32 @@
 import React from "react";
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ComposeForm from './composeform';
 import Timeline from './timeline';
 import HeaderNav from './headernav';
 import { FaTwitter } from 'react-icons/fa';
 import '../styles/tweetapp.css';
 import { getAllTweets, addTweetsForUser } from "../services/TweetService";
-import UserContext from "../context/usercontext";
+//import UserContext from "../context/usercontext";
 
 
 const TweetAppComponent = () => {
 
-  const userContext = useContext(UserContext);
+  //const userContext = useContext(UserContext);
   //console.log(userContext);
   //const [user, setUser] = useState(null);
   const [tweets, setTweets] = useState([]);
   const [tweet, setTweet] = useState({});
-  const[isFormSubmitted, setIsFormSubmitted] = useState(false);
-  const[isTweetAdded, setIsTweetAdded] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isTweetAdded, setIsTweetAdded] = useState(false);
   const [isTweetDeleted, setIsTweetDeleted] = useState(false);
   const [isTweetLiked, setIsTweetLiked] = useState(false);
   let loggedInUser = JSON.parse(localStorage.getItem("username")) || "";
-  // if (user == null && userContext?.user !== null) {
-  //   setUser(userContext.user); console.log(user);
-  // }
   
-  const updateIsTweetDeleted = (updatedValue) =>{
+  const updateIsTweetDeleted = (updatedValue) => {
     setIsTweetDeleted(updatedValue);
   }
 
-  const updateIsTweetLiked = (updatedValue) =>{
+  const updateIsTweetLiked = (updatedValue) => {
     setIsTweetLiked(updatedValue);
   }
 
@@ -55,23 +52,21 @@ const TweetAppComponent = () => {
 
   }, [loggedInUser, isTweetAdded, isTweetDeleted, isTweetLiked])
 
-  useEffect(()=>{
-    if(loggedInUser?.trim().length > 0 && isFormSubmitted){
-        //let userData = { 'name': username, 'emailAddress': emailAddress, 'username': username, 'Password': password };
-        
-        const postTweet = async (tweet) => {
-            try {
-                let addTweetResponse = await addTweetsForUser(tweet, loggedInUser);
-                setIsTweetAdded(true);
-                //setUser(addTweetResponse);
-            } catch (error) {
-                console.log(error);
-            }
+  useEffect(() => {
+    if (loggedInUser?.trim().length > 0 && isFormSubmitted) {
+
+      const postTweet = async (tweet) => {
+        try {
+          await addTweetsForUser(tweet, loggedInUser);
+          setIsTweetAdded(true);
+        } catch (error) {
+          console.log(error);
         }
-        postTweet(tweet);
+      }
+      postTweet(tweet);
     }
-    
-},[isFormSubmitted, tweet, loggedInUser])
+
+  }, [isFormSubmitted, tweet, loggedInUser])
 
   const handlePostTweet = (content) => {
     const newTweet = {
@@ -92,7 +87,7 @@ const TweetAppComponent = () => {
       <FaTwitter className="app-logo" size="2em" />
       <ComposeForm onSubmit={handlePostTweet} />
       <div className="separator"></div>
-      <Timeline tweets={tweets} tweetDeletedHandler={updateIsTweetDeleted} likeTweetHandler={updateIsTweetLiked}/>
+      <Timeline tweets={tweets} tweetDeletedHandler={updateIsTweetDeleted} likeTweetHandler={updateIsTweetLiked} />
     </div>
   )
 };

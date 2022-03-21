@@ -3,7 +3,6 @@ import Tweet from './tweet.js';
 import '../styles/timeline.css';
 
 function Timeline({ tweets, tweetDeletedHandler, likeTweetHandler }) {
-  //console.log(`In timeline, tweetDeletedHandler is ${tweetDeletedHandler}`);
   return (
     <ul className="timeline">
   {tweets.sort((a,b) => parseInt(b.tweetId) - parseInt(a.tweetId)).map(({ tweetId, username, postedon, message, repliedByUsers, likedByUsers }) => (

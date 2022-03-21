@@ -2,9 +2,7 @@ import moment from 'moment';
 import Avatar from './avatar';
 import '../styles/tweet.css';
 import { FaRegComment, FaRetweet } from 'react-icons/fa';
-//import { MdOutlineFavoriteBorder } from 'react-icons/md';
-import { useState, useEffect, useContext } from "react";
-//import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext} from "react";
 import { deleteTweetsForUser, likeTweet } from "../services/TweetService";
 import UserContext from '../context/usercontext';
 
@@ -13,6 +11,7 @@ function Tweet(props) {
   const { tweetId, user, createdOn, children, comments_count, retweets_count, favorites_count, onTweetDelete, onLikeTweet } = props
   const [isDeleteTweetClicked, setIsDeleteTweetClicked] = useState(false);
   const [isLikeTweetClicked, setIsLikeTweetClicked] = useState(false);
+  let loggedInUser = localStorage.getItem("username") || "";
 
   useEffect(() => {
     if (isDeleteTweetClicked) {
@@ -34,7 +33,6 @@ function Tweet(props) {
 
   useEffect(() => {
     if (isLikeTweetClicked) {
-
       const likeATweet = async (user, tweetId) => {
         try {
           await likeTweet(user, tweetId);
@@ -45,10 +43,10 @@ function Tweet(props) {
           console.log(error);
         }
       }
-      likeATweet(context.user.username, tweetId);
+      likeATweet(user, tweetId);
     }
 
-  }, [context, tweetId, isLikeTweetClicked, onLikeTweet])
+  }, [user, tweetId, isLikeTweetClicked, onLikeTweet])
 
   const deleteTweetHandler = (event) => {
     event.preventDefault();
@@ -72,8 +70,8 @@ function Tweet(props) {
         <div className="tweet-attributes">
           <span><FaRegComment className="comments-count" size='2em'></FaRegComment>{comments_count}</span>
           <FaRetweet className="retweets-count" size='2em'></FaRetweet> {retweets_count}
-          {context.user?.username === user && <button type="submit" className="compose-form-submit" onClick={deleteTweetHandler}> Delete</button>}
-          {context.user?.username !== user && <button type="submit" className="compose-form-submit" onClick={likeTweetHandler}> Like </button>} <span>{favorites_count} likes!</span>
+          {context.user.username === user && <button type="submit" className="compose-form-submit" onClick={deleteTweetHandler}> Delete</button>}
+          {context.user.username !== user && <button type="submit" className="compose-form-submit" onClick={likeTweetHandler}> Like </button>} <span>{favorites_count} likes!</span>
         </div>
       </div>
 
