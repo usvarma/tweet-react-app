@@ -171,27 +171,27 @@ const RegisterComponent = () => {
                 <div className="form-group">
                     <label htmlFor="registerEmail" className="mt-4">Email address</label>
                     <input required type="email" className="form-control mt-2" id="registerEmail" onChange={validateEmail} onBlur={emailBlurHandler} aria-describedby="Enter email" placeholder="Enter email"></input>
-                {!isEmailValid && isEmailAddressTouched && <p>Email should be atleast 6 characters</p>}
+                {!isEmailValid && isEmailAddressTouched && <p className="error-text">Email should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerUsername" className="mt-4">Username</label>
                     <input required type="text" className="form-control mt-2" id="registerUsername" onChange={validateUsername} onBlur={usernameBlurHandler} aria-describedby="Enter username" placeholder="Enter username"></input>
-                    {!isUsernameValid && isUsernameTouched && <p>Username should be atleast 6 characters</p>}
+                    {!isUsernameValid && isUsernameTouched && <p className="error-text">Username should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerPassword" className="mt-4">Password</label>
                     <input required type="password" className="form-control mt-2" id="registerPassword" onChange={validatePassword} onBlur={passwordBlurHandler} aria-describedby="Enter password" placeholder="Enter password"></input>
-                    {!isPasswordValid && isPasswordTouched && <p>Password should be atleast 6 characters</p>}
+                    {!isPasswordValid && isPasswordTouched && <p className="error-text">Password should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerConfirmPassword" className="mt-4">Confirm Password</label>
                     <input required type="password" className="form-control mt-2" id="registerConfirmPassword" onChange={validateConfirmPassword} onBlur={confirmPasswordBlurHandler} aria-describedby="Confirm password" placeholder="Confirm password"></input>
-                    {!isConfirmPasswordValid && isConfirmPasswordTouched && <p>Confirmation password should be atleast 6 characters</p>}
+                    {!isConfirmPasswordValid && isConfirmPasswordTouched && <p className="error-text">Confirmation password should be atleast 6 characters</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="registerPhone" className="mt-4">Phone Number</label>
                     <input required type="tel" className="form-control mt-2" id="registerPhone" onChange={validatePhonenumber} onBlur={phonenumberBlurHandler} aria-describedby="Enter phone number" placeholder="Enter phone number"></input>
-                    {!isPhonenumberValid && isPhonenumberTouched && <p>Phone number should be numeric and 10 digit long</p>}
+                    {!isPhonenumberValid && isPhonenumberTouched && <p className="error-text">Phone number should be numeric and 10 digit long</p>}
                 </div>
                 <button type="submit" className={`btn btn-primary mt-4 ${isFormValid ? "" : "disabled"}`}>Sign Up</button>
             </form>

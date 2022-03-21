@@ -59,7 +59,7 @@ const LoginSignUp = (props) => {
       <h2>Login to Tweet App</h2>
       <form onSubmit={event => { onSubmitLogin(event) }}>
         <div className="form-group">
-          {ctx.hasError && <p>{ctx.errorMsg}</p>}
+          {ctx.hasError && <p className="error-text">{ctx.errorMsg}</p>}
           <label htmlFor="loginEmail" className="mt-4">Username</label>
           <input required type="text" className="form-control mt-2" ref={username} id="loginUsername" onChange={areFieldsEmpty} aria-describedby="emailHelp" placeholder="Enter username"></input>
         </div>
