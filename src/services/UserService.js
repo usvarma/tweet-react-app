@@ -1,6 +1,9 @@
 
+import { GetToken } from "./TokenService";
+
 const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
 const contentTypeHeader = {'Content-Type': 'application/json'};
+
 
 let fetchIssueMsg = 'Failed to fetch';
 let networkIssueMsg = 'Unable to login. Please check your network connection.'
@@ -109,25 +112,30 @@ export async function searchUser(username) {
 }
 
 export async function getAllUsers() {
-
+    const token = await GetToken(); //Add call to tokenservice to get token
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
     try {
         const request = new Request(`${baseUrl}/users/all`, {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
-            headers: contentTypeHeader,
+            headers: requestHeader,
             redirect: 'follow',
             referrerPolicy: 'no-referrer'
         });
 
         const response = await fetch(request);
         if (!response.ok) {
-            throw new Error(`${response.status}`);
+            let errorMsg = await response.text();
+            throw new Error(errorMsg);
         }
         
         return await response.json();
 
     } catch (error) {
+        if(error.message.includes(fetchIssueMsg)){
+            throw new Error(networkIssueMsg)
+        }
         throw error;
     }
 }
