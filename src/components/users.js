@@ -2,6 +2,7 @@
 import { useState, useEffect} from 'react';
 import { getAllUsers } from "../services/UserService";
 import { getAllTweetsOfUser } from "../services/TweetService";
+import HeaderNav from './headernav';
 
 function Users() {
     const[users, setUsers] = useState([]);
@@ -39,6 +40,7 @@ function Users() {
 
     return (
     <div className="container">
+        <HeaderNav />
         <div className="mb-4"></div>
         <table className="table table-striped table-bordered mt-4">
             <thead>

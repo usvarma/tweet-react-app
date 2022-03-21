@@ -43,7 +43,8 @@ export const GetToken = async () => {
                 throw new Error(`${response.status}`);
             }
 
-            var newToken = await response.json();
+            var newToken = await response.text();
+            console.log(`Token in tokenservice is: ${newToken}`);
             SetToken(newToken);
             return newToken;
         } catch (error) {

@@ -1,5 +1,5 @@
 import { React, useState, createContext, useEffect } from "react";
-import { GetUserInfo, SetToken } from "../services/TokenService";
+import { SetToken } from "../services/TokenService";
 import { loginUser } from "../services/UserService";
 
 
@@ -59,8 +59,6 @@ export const UserContextProvider = (props) => {
         setIsLoggedIn(true);
         setUser({ username: username });
         } catch (error) {
-        localStorage.setItem('hasError', true);
-        localStorage.setItem('errorMsg', error.message);
         setHasError(true);
         setErrorMsg(error.message);
         setIsRequestProcessed(true);

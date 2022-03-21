@@ -5,29 +5,30 @@ const baseUrl = `https://localhost:44319/api/v1.0/tweets`;
 //const requestHeader = {'Content-Type': 'application/json', 'Authorization':token};
 
 
-// export async function getAllTweets() {
+export async function getAllTweets() {
+    const token = await GetToken(); //Add call to tokenservice to get token
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
+    try {
+        const request = new Request(`${baseUrl}/all`, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: requestHeader,
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer'
+        });
 
-//     try {
-//         const request = new Request(`${baseUrl}/all`, {
-//             method: 'GET',
-//             mode: 'cors',
-//             cache: 'no-cache',
-//             headers: requestHeader,
-//             redirect: 'follow',
-//             referrerPolicy: 'no-referrer'
-//         });
-
-//         const response = await fetch(request);
-//         if (!response.ok) {
-//             throw new Error(`${response.status}`);
-//         }
+        const response = await fetch(request);
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
         
-//         return await response.json();
+        return await response.json();
 
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+    } catch (error) {
+        throw error;
+    }
+}
 
 export async function getAllTweetsOfUser(username) {
     const token = await GetToken(); //Add call to tokenservice to get token
@@ -130,29 +131,30 @@ export async function deleteTweetsForUser(username, id) {
     }
 }
 
-// export async function likeTweet(username, id) {
+export async function likeTweet(username, id) {
+    const token = await GetToken(); //Add call to tokenservice to get token
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
+    try {
+        const request = new Request(`${baseUrl}/${username}/like/${id}`, {
+            method: 'PUT',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: requestHeader,
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer'
+        });
 
-//     try {
-//         const request = new Request(`${baseUrl}/${username}/like/${id}`, {
-//             method: 'PUT',
-//             mode: 'cors',
-//             cache: 'no-cache',
-//             headers: requestHeader,
-//             redirect: 'follow',
-//             referrerPolicy: 'no-referrer'
-//         });
-
-//         const response = await fetch(request);
-//         if (!response.ok) {
-//             throw new Error(`${response.status}`);
-//         }
+        const response = await fetch(request);
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
         
-//         return await response.json();
+        return await response.text();
 
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+    } catch (error) {
+        throw error;
+    }
+}
 
 // export async function replyForTweet(username, id, replyTweet) {
 
