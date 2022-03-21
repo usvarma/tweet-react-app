@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../services/UserService";
 import UserContext from "../context/usercontext";
 
 const RegisterComponent = () => {
@@ -30,7 +29,7 @@ const RegisterComponent = () => {
     const [isConfirmPasswordInputValid, setIsConfirmPasswordInputValid] = useState(false);
     const [isPhonenumberInputValid, setIsPhonenumberInputValid] = useState(false);
 
-    const [user, setUser] = useState(null);
+    //const [user, setUser] = useState(null);
     const [doPasswordsMatch, setDoPasswordsMatch] = useState(false);
     const[isFormSubmitted, setIsFormSubmitted] = useState(false);
     const[isFormValid, setIsFormValid] = useState(false);    
@@ -120,25 +119,21 @@ const RegisterComponent = () => {
     }
  
            
-    useEffect(()=>{
-        if(isFormSubmitted){
-            let userData = { 'name': username, 'emailAddress': emailAddress, 'username': username, 'Password': password };
-            
-            const userRegister = async (userData) => {
-                try {
-                    let registerResponse = await registerUser(userData);
-                    setUser(registerResponse);
-                    ctx.onLogin(username, password);
-                    navigate('/username/tweets');
-
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-            userRegister(userData);
+    useEffect(() => {
+        if (isFormSubmitted) {
+            ctx.onRegister(emailAddress, username, password);
         }
-        
-    },[emailAddress, isFormSubmitted, password, username, navigate, ctx])
+
+    }, [emailAddress, isFormSubmitted, password, username, navigate, ctx])
+
+    useEffect(() => {
+        if (ctx.isRequestProcessed && !ctx.hasError) {
+            ctx.onLogin(username, password);
+            navigate('/username/tweets');
+        } else {
+            navigate('/register');
+        }
+    }, [ctx, navigate, username, password])
 
     useEffect(() => {
         //console.log(`In useEffect for updating form state`);
@@ -167,8 +162,10 @@ const RegisterComponent = () => {
 
     return (
         <div className="container">
+            <h2>Register yourself</h2>
             <form onSubmit={onSubmitRegister}>
                 <div className="form-group">
+                {ctx.hasError && <p className="error-text">{ctx.errorMsg}</p>}
                     <label htmlFor="registerEmail" className="mt-4">Email address</label>
                     <input required type="email" className="form-control mt-2" id="registerEmail" onChange={validateEmail} onBlur={emailBlurHandler} aria-describedby="Enter email" placeholder="Enter email"></input>
                 {!isEmailValid && isEmailAddressTouched && <p className="error-text">Email should be atleast 6 characters</p>}

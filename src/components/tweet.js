@@ -2,12 +2,10 @@ import moment from 'moment';
 import Avatar from './avatar';
 import '../styles/tweet.css';
 import { FaRegComment, FaRetweet } from 'react-icons/fa';
-import { useState, useEffect, useContext} from "react";
+import { useState, useEffect} from "react";
 import { deleteTweetsForUser, likeTweet } from "../services/TweetService";
-import UserContext from '../context/usercontext';
 
 function Tweet(props) {
-  const context = useContext(UserContext);
   const { tweetId, user, createdOn, children, comments_count, retweets_count, favorites_count, onTweetDelete, onLikeTweet } = props
   const [isDeleteTweetClicked, setIsDeleteTweetClicked] = useState(false);
   const [isLikeTweetClicked, setIsLikeTweetClicked] = useState(false);

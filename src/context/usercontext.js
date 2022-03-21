@@ -1,9 +1,9 @@
 import { React, useState, createContext, useEffect } from "react";
 import { SetToken } from "../services/TokenService";
-import { loginUser } from "../services/UserService";
+import { loginUser, registerUser } from "../services/UserService";
 
 
-const UserContext = createContext({ user:{}, isLoggedIn: false, onLogout: () => { }, onLogin: (username, password) => { }, hasError: false, errorMsg: null, isRequestProcessed: false });
+const UserContext = createContext({ user:{}, isLoggedIn: false, onLogout: () => { }, onLogin: (username, password) => { }, onRegister: (emailAddress, username, password) => { }, hasError: false, errorMsg: null, isRequestProcessed: false });
 
 export const UserContextProvider = (props) => {
 
@@ -68,6 +68,22 @@ export const UserContextProvider = (props) => {
 
   };
 
+  const registerHandler = (emailAddress, username, password) => {
+    let userData = { 'name': username, 'emailAddress': emailAddress, 'username': username, 'Password': password };
+    const userRegister = async (userData) => {
+      try {
+        await registerUser(userData);
+        setHasError(false);
+        setErrorMsg(null);
+        setIsRequestProcessed(true);
+      } catch (error) {
+        setHasError(true);
+        setErrorMsg(error.message);
+        setIsRequestProcessed(true);
+      }
+    }
+    userRegister(userData);
+  };
 
   return (
     // the Provider gives access to the context to its children
@@ -75,6 +91,7 @@ export const UserContextProvider = (props) => {
       isLoggedIn: isLoggedIn,
       onLogout: logoutHandler,
       onLogin: loginHandler,
+      onRegister: registerHandler,
       hasError: hasError,
       errorMsg: errorMsg,
       isRequestProcessed: isRequestProcessed

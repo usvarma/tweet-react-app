@@ -6,7 +6,10 @@ const contentTypeHeader = {'Content-Type': 'application/json'};
 
 
 let fetchIssueMsg = 'Failed to fetch';
-let networkIssueMsg = 'Unable to login. Please check your network connection.'
+let networkIssueMsg = 'Please check your network connection.'
+let loginIssueMsg = 'Unable to login.'
+let registerIssueMsg = 'Unable to register user.'
+
 export async function registerUser(userData) {
 
     try {
@@ -22,12 +25,16 @@ export async function registerUser(userData) {
 
         const response = await fetch(request);
         if (!response.ok) {
-            throw new Error(`${response.status}`);
+            let errorMsg = await response.text();
+            throw new Error(errorMsg);
         }
         //console.log(`Response in userservice.registerUser is ${response.body}`);
         return await response.json();
 
     } catch (error) {
+        if(error.message.includes(fetchIssueMsg)){
+            throw new Error(`${registerIssueMsg} ${networkIssueMsg}`)
+        }
         throw error;
     }
 }
@@ -56,7 +63,7 @@ export async function loginUser(credentials) {
 
     } catch (error) {
         if(error.message.includes(fetchIssueMsg)){
-            throw new Error(networkIssueMsg)
+            throw new Error(`${loginIssueMsg} ${networkIssueMsg}`)
         }
         throw error;
     }
