@@ -81,30 +81,31 @@ export async function addTweetsForUser(tweetData, username) {
     }
 }
 
-// export async function updateTweetsForUser(updatedTweet, username, id) {
+export async function updateTweetsForUser(updatedTweet, username, id) {
+    const token = await GetToken(); //Add call to tokenservice to get token
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
+    try {
+        const request = new Request(`${baseUrl}/${username}/update/${id}`, {
+            method: 'PUT',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: requestHeader,
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(updatedTweet)
+        });
 
-//     try {
-//         const request = new Request(`${baseUrl}/${username}/update/${id}`, {
-//             method: 'PUT',
-//             mode: 'cors',
-//             cache: 'no-cache',
-//             headers: requestHeader,
-//             redirect: 'follow',
-//             referrerPolicy: 'no-referrer',
-//             body: JSON.stringify(updatedTweet)
-//         });
-
-//         const response = await fetch(request);
-//         if (!response.ok) {
-//             throw new Error(`${response.status}`);
-//         }
+        const response = await fetch(request);
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
         
-//         return await response.json();
+        return await response.json();
 
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+    } catch (error) {
+        throw error;
+    }
+}
 
 export async function deleteTweetsForUser(username, id) {
     const token = await GetToken(); //Add call to tokenservice to get token
@@ -156,27 +157,28 @@ export async function likeTweet(username, id) {
     }
 }
 
-// export async function replyForTweet(username, id, replyTweet) {
+export async function replyForTweet(username, id, replyTweet) {
+    const token = await GetToken(); //Add call to tokenservice to get token
+    const requestHeader = {'Content-Type': 'application/json', 'Authorization':`Bearer ${token}`};
+    try {
+        const request = new Request(`${baseUrl}/${username}/reply/${id}`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: requestHeader,
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(replyTweet)
+        });
 
-//     try {
-//         const request = new Request(`${baseUrl}/${username}/reply/${id}`, {
-//             method: 'POST',
-//             mode: 'cors',
-//             cache: 'no-cache',
-//             headers: requestHeader,
-//             redirect: 'follow',
-//             referrerPolicy: 'no-referrer',
-//             body: JSON.stringify(replyTweet)
-//         });
-
-//         const response = await fetch(request);
-//         if (!response.ok) {
-//             throw new Error(`${response.status}`);
-//         }
+        const response = await fetch(request);
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
         
-//         return await response.json();
+        return await response.json();
 
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+    } catch (error) {
+        throw error;
+    }
+}

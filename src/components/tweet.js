@@ -66,8 +66,6 @@ function Tweet(props) {
         </div>
         <div className="tweet-content">{children}</div>
         <div className="tweet-attributes">
-          <span><FaRegComment className="comments-count" size='2em'></FaRegComment>{comments_count}</span>
-          <FaRetweet className="retweets-count" size='2em'></FaRetweet> {retweets_count}
           {loggedInUser === user && <button type="submit" className="compose-form-submit" onClick={deleteTweetHandler}> Delete</button>}
           {loggedInUser !== user && <button type="submit" className="compose-form-submit" onClick={likeTweetHandler}> Like </button>} <span>{favorites_count} likes!</span>
         </div>
