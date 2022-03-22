@@ -12,6 +12,7 @@ export const UserContextProvider = (props) => {
   const [hasError, setHasError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [isRequestProcessed, setIsRequestProcessed] = useState(false);
+  const [isRegisterRequestProcessed, setIsRegisterRequestProcessed] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -75,11 +76,11 @@ export const UserContextProvider = (props) => {
         await registerUser(userData);
         setHasError(false);
         setErrorMsg(null);
-        setIsRequestProcessed(true);
+        setIsRegisterRequestProcessed(true);
       } catch (error) {
         setHasError(true);
         setErrorMsg(error.message);
-        setIsRequestProcessed(true);
+        setIsRegisterRequestProcessed(true);
       }
     }
     userRegister(userData);
@@ -94,7 +95,8 @@ export const UserContextProvider = (props) => {
       onRegister: registerHandler,
       hasError: hasError,
       errorMsg: errorMsg,
-      isRequestProcessed: isRequestProcessed
+      isRequestProcessed: isRequestProcessed,
+      isRegisterRequestProcessed: isRegisterRequestProcessed
     }}>
       {props.children}
     </UserContext.Provider>

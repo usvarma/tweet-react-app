@@ -124,10 +124,10 @@ const RegisterComponent = () => {
             ctx.onRegister(emailAddress, username, password);
         }
 
-    }, [emailAddress, isFormSubmitted, password, username, navigate, ctx])
+    }, [emailAddress, isFormSubmitted, password, username, ctx])
 
     useEffect(() => {
-        if (ctx.isRequestProcessed && !ctx.hasError) {
+        if (ctx.isRegisterRequestProcessed && !ctx.hasError) {
             ctx.onLogin(username, password);
             navigate('/username/tweets');
         } else {
